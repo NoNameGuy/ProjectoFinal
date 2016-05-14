@@ -2,7 +2,7 @@ package com.thalmic.android.sample.helloworld;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -33,6 +34,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import database.DbHelper;
 
 public class MainActivity extends Activity {
 
@@ -75,6 +78,7 @@ public class MainActivity extends Activity {
 
     private Date initialTime;
     private SimpleDateFormat sdf = new SimpleDateFormat("mm:ss");
+    private int moveId;
 
     // Classes that inherit from AbstractDeviceListener can be used to receive events from Myo devices.
     // If you do not override an event, the default behavior is to do nothing.
@@ -262,6 +266,13 @@ public class MainActivity extends Activity {
             textZ.setText(String.format("%.2f", accelZ));
 
             accelerometerTimestamp = timestamp;
+            if(myo.getXDirection()==XDirection.TOWARD_WRIST){
+                Toast.makeText(getApplicationContext(),"toward wrist", Toast.LENGTH_SHORT).show();
+            }
+            if(myo.getXDirection()==XDirection.TOWARD_ELBOW){
+                Toast.makeText(getApplicationContext(),"toward elbow", Toast.LENGTH_SHORT).show();
+            }
+
 
         }
 
@@ -294,6 +305,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project);
 
+        moveId=0;
 
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -320,7 +332,6 @@ public class MainActivity extends Activity {
         });
 
         builder.show();
-
 
 
         mLockStateView = (TextView) findViewById(R.id.lock_state);
@@ -367,7 +378,16 @@ public class MainActivity extends Activity {
             onScanActionSelected();
             return true;
         }
+        if (R.id.action_view_data == id) {
+            viewData();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void viewData() {
+        Intent intent = new Intent(getApplicationContext(), ViewData.class);
+        startActivity(intent);
     }
 
     private void onScanActionSelected() {
@@ -378,10 +398,21 @@ public class MainActivity extends Activity {
 
     public void toggleRecording(View view) {
         Button btn = (Button) findViewById(R.id.btnRecord);
+        EditText editText = (EditText) findViewById(R.id.txtMovename);
         if( btn.getText().equals(getString(R.string.startRecording))) {
             //stopRecording();
-            startRecording();
-            btn.setText(getString(R.string.stopRecording));
+            if(editText.getText().toString().equals("") || editText.getText().toString().equals(" ")) {
+                Toast.makeText(getApplicationContext(), "Please fill the move name field", Toast.LENGTH_SHORT).show();
+            } else {
+                moveId++;
+
+                startRecording(editText.getText().toString().trim());
+                btn.setText(getString(R.string.stopRecording));
+
+                InputMethodManager keyboard = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                keyboard.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+            }
+
         } else {
             stopRecording();
             //startRecording();
@@ -390,33 +421,8 @@ public class MainActivity extends Activity {
 
     }
 
-    private void startRecording() {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Move name");
-
-// Set up the input
-        final EditText input = new EditText(this);
-// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-        input.setInputType(InputType.TYPE_CLASS_TEXT );
-        builder.setView(input);
-
-// Set up the buttons
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                moveName = input.getText().toString();
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        builder.show();
-
+    private void startRecording(String moveName) {
+        this.moveName = moveName;
         initialTime  = new Date();
 
         memoryHandler.postDelayed(new Runnable() {
@@ -432,28 +438,42 @@ public class MainActivity extends Activity {
 
     private void stopRecording() {
 
-        fileHandler.postDelayed(new Runnable() {
+        /*fileHandler.postDelayed(new Runnable() {
             public void run() {
-                writeDataToFile();
-
+                //writeDataToFile();
+                writeDataToDatabase();
                 fileHandler.postDelayed(this, dataWriteDelay);
             }
-        }, dataWriteDelay);
-
+        }, dataWriteDelay);*/
 
         memoryHandler.removeCallbacksAndMessages(null);
+        writeDataToDatabase();
     }
 
     private void writeDataToMemory() {
 
-        accelerometerTempData.append(sdf.format(initialTime.getTime()) + "; " + accelX + "; " + accelY + "; "+ accelZ + "; "+ currentArm + "; "+ username + "; "+ moveName + "\n");
-        gyroscopeTempData.append(gyroscopeTimestamp + "; " + gyroX + "; " + gyroY + "; "+ gyroZ + "; "+ currentArm + "; "+ username + "; "+ moveName + "\n");
-        orientationTempData.append(orientationTimestamp + "; " + orientationW + "; " + orientationX + "; " + orientationY + "; "+ orientationZ + "; "+ currentArm + "; " + username +"; "+ moveName + "\n");
-        //Toast.makeText(getApplicationContext(),accelerometerTempData,Toast.LENGTH_SHORT).show();
+        accelerometerTempData.append(moveId+ "; " + sdf.format(initialTime.getTime()) + "; " + accelX + "; " + accelY + "; "+ accelZ + "; "+ currentArm + "; "+ username + "; "+ moveName + "\n");
+        gyroscopeTempData.append(moveId+ "; " + gyroscopeTimestamp + "; " + gyroX + "; " + gyroY + "; " + gyroZ + "; " + currentArm + "; " + username + "; " + moveName + "\n");
+        orientationTempData.append(moveId+ "; " + orientationTimestamp + "; " + orientationW + "; " + orientationX + "; " + orientationY + "; " + orientationZ + "; " + currentArm + "; " + username + "; " + moveName + "\n");
+        writeDataToDatabase();
+    }
+
+    public void writeDataToDatabase() {
+
+        DbHelper dbh = new DbHelper(getApplicationContext());
+
+        dbh.insertAccelerometerRegister(String.valueOf(moveId), String.valueOf(accelerometerTimestamp), String.valueOf(accelX), String.valueOf(accelY), String.valueOf(accelZ), String.valueOf(currentArm), username, moveName);
+        dbh.insertGyroscopeRegister(String.valueOf(moveId), String.valueOf(gyroscopeTimestamp), String.valueOf(gyroX), String.valueOf(gyroY), String.valueOf(gyroZ), String.valueOf(currentArm), username, moveName);
+        dbh.insertOrientationRegister(String.valueOf(moveId), String.valueOf(orientationTimestamp), String.valueOf(orientationW), String.valueOf(orientationX), String.valueOf(orientationY), String.valueOf(orientationZ), String.valueOf(currentArm), username, moveName);
 
     }
 
-    public void writeDataToFile(){//String accelData, String gyroData, String orientationData){
+    public void cubeActivity(View view) {
+        Intent intent = new Intent();
+        startActivity(intent);
+    }
+
+    public void writeDataToFileCsv(){
 
         //accelerometer data
         try {

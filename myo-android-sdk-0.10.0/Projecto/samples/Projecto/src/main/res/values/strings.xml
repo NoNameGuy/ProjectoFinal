@@ -16,5 +16,9 @@
     <string name="locked">Locked</string>
     <string name="startRecording">Start Recording</string>
     <string name="stopRecording">Stop Recording</string>
+    <string name="viewData">View Data</string>
+    <string name="accelerometer">Accelerometer</string>
+    <string name="gyroscope">Gyroscope</string>
+    <string name="orientation">Orientation</string>
 
 </resources>
