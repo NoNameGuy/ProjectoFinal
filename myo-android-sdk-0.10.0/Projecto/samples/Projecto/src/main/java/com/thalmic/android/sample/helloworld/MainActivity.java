@@ -386,7 +386,7 @@ public class MainActivity extends Activity {
     }
 
     private void viewData() {
-        Intent intent = new Intent(getApplicationContext(), ViewData.class);
+        Intent intent = new Intent(getApplicationContext(), OpenGLES20.class);
         startActivity(intent);
     }
 
