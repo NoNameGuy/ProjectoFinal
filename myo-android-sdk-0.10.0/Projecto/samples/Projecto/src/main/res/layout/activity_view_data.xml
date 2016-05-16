@@ -48,11 +48,26 @@
             android:layout_height="379dp"
             android:id="@+id/listView" />
 
-        <Button
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Clear All"
-            android:id="@+id/btnClearAll"
-            android:onClick="clearAll" />
+            android:layout_gravity="center_horizontal">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Clear All"
+                android:id="@+id/btnClearAll"
+                android:onClick="clearAll" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Export CSV"
+                android:id="@+id/btnExportCSV"
+                android:onClick="exportCSV" />
+        </LinearLayout>
+
     </LinearLayout>
 </RelativeLayout>

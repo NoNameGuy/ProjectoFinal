@@ -67,13 +67,8 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(DATABASE_CREATE_TABLE_GYROSCOPE);
         db.execSQL(DATABASE_CREATE_TABLE_ORIENTATION);
 
-        insertData(db);
     }
 
-    public void insertData(SQLiteDatabase db) {
-        //db.execSQL("insert into " + TABLE_ACCELEROMETER_NAME + " values( 0, 0, 0, 0, 0, right, user, move);");
-
-    }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -111,7 +106,7 @@ public class DbHelper extends SQLiteOpenHelper {
             StringBuilder paragraph=new StringBuilder();
 
             for(int i=0; i<cursor.getColumnCount();i++) {
-                paragraph.append(cursor.getString(i) + " ");
+                paragraph.append(cursor.getString(i) + "; ");
             }
 
             arrayList.add(paragraph.toString());
