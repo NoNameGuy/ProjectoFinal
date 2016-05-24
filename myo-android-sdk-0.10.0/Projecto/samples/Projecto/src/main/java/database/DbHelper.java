@@ -16,6 +16,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String TABLE_ACCELEROMETER_NAME = "accelerometer";
     public static final String TABLE_GYROSCOPE_NAME = "gyroscope";
     public static final String TABLE_ORIENTATION_NAME = "orientation";
+    public static final String TABLE_COMMON_DATA_NAME = "common";
 
 
     private static final int DATABASE_VERSION = 1;
@@ -30,6 +31,8 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String USERNAME = "username";
     public static final String MOVENAME = "movename";
     public static final String CURRENTARM = "currentarm";
+    public static final String REFERENCE = "reference";
+    public static final String COMMENT = "comment";
 
     private static final String DATABASE_CREATE_TABLE_ACCELEROMETER = "create table "
             + TABLE_ACCELEROMETER_NAME + "( " + ID
@@ -49,12 +52,19 @@ public class DbHelper extends SQLiteOpenHelper {
             + " int, " + Y + " int, "
             + Z+" int, " + CURRENTARM + " varchar, " + USERNAME + " varchar, " + MOVENAME + " varchar );";
 
+    private static final String DATABASE_CREATE_TABLE_COMMON_DATA = "create table "
+            + TABLE_COMMON_DATA_NAME + "( " + ID
+            + " integer primary key autoincrement, " + MOVEID + " int, " + TIMESTAMP + " int, "
+            + CURRENTARM + " varchar, " + USERNAME + " varchar, " + MOVENAME + " varchar, " +REFERENCE+ " boolean, " + COMMENT + "varchar );";
+
     private static final String DATABASE_DELETE_ACCELEROMETER_REGISTS = "delete from "
             + TABLE_ACCELEROMETER_NAME;
     private static final String DATABASE_DELETE_GYROSCOPE_REGISTS = "delete from "
             + TABLE_GYROSCOPE_NAME;
     private static final String DATABASE_DELETE_ORIENTATION_REGISTS = "delete from "
             + TABLE_ORIENTATION_NAME;
+    private static final String DATABASE_DELETE_COMMON_REGISTS = "delete from "
+            + TABLE_COMMON_DATA_NAME;
 
     public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -66,6 +76,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(DATABASE_CREATE_TABLE_ACCELEROMETER);
         db.execSQL(DATABASE_CREATE_TABLE_GYROSCOPE);
         db.execSQL(DATABASE_CREATE_TABLE_ORIENTATION);
+        db.execSQL(DATABASE_CREATE_TABLE_COMMON_DATA);
 
     }
 
@@ -78,84 +89,49 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ACCELEROMETER_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_GYROSCOPE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ORIENTATION_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_COMMON_DATA_NAME);
         onCreate(db);
     }
 
     public ArrayList<String> getAllAccelerometerRegists() {
-
         ArrayList<String> arrayList = new ArrayList<String>();
-        SQLiteDatabase db = this.getReadableDatabase();
-
         String[] columns = {ID, MOVEID, TIMESTAMP, X, Y, Z, CURRENTARM, USERNAME, MOVENAME };
 
-        Cursor cursor = db.query(
-                TABLE_ACCELEROMETER_NAME,  // The table to query
-                columns, // The columns to return
-                null,
-                null,                                // The columns for the WHERE clause
-                null,                            // The values for the WHERE clause
-                null,                                     // don't group the rows
-                null                                     // don't filter by row groups
-                //sortOrder                                 // The sort order
-        );
-
-        cursor.moveToFirst();
-
-        while(!cursor.isAfterLast()) //itera linhas
-        {
-            StringBuilder paragraph=new StringBuilder();
-
-            for(int i=0; i<cursor.getColumnCount();i++) {
-                paragraph.append(cursor.getString(i) + "; ");
-            }
-
-            arrayList.add(paragraph.toString());
-            cursor.moveToNext();
-        }
-        return arrayList;
+        return getDataFromDatabase(TABLE_ACCELEROMETER_NAME, columns);
     }
 
     public ArrayList<String> getAllGyroscopeRegists() {
         ArrayList<String> arrayList = new ArrayList<String>();
-        SQLiteDatabase db = this.getReadableDatabase();
-
         String[] columns = {ID, MOVEID, TIMESTAMP, X, Y, Z, CURRENTARM, USERNAME, MOVENAME };
 
-        Cursor cursor = db.query(
-                TABLE_GYROSCOPE_NAME,  // The table to query
-                columns, // The columns to return
-                null,
-                null,                                // The columns for the WHERE clause
-                null,                            // The values for the WHERE clause
-                null,                                     // don't group the rows
-                null                                     // don't filter by row groups
-                //sortOrder                                 // The sort order
-        );
-
-        cursor.moveToFirst();
-
-        while(!cursor.isAfterLast()) //itera linhas
-        {
-            StringBuilder paragraph=new StringBuilder();
-
-            for(int i=0; i<cursor.getColumnCount();i++) {
-                paragraph.append(cursor.getString(i) + " ");
-            }
-
-            arrayList.add(paragraph.toString());
-            cursor.moveToNext();
-        }
-        return arrayList;
+        return getDataFromDatabase(TABLE_GYROSCOPE_NAME, columns);
     }
 
     public ArrayList<String> getAllOrientationRegists() {
         ArrayList<String> arrayList = new ArrayList<String>();
-        SQLiteDatabase db = this.getReadableDatabase();
-
         String[] columns = {ID, MOVEID, TIMESTAMP, W, X, Y, Z, CURRENTARM, USERNAME, MOVENAME };
 
+        return getDataFromDatabase(TABLE_ORIENTATION_NAME, columns);
+    }
+
+    public ArrayList<String> getAccelerometerMovename(String moveId) {
+        ArrayList<String> arrayList = new ArrayList<String>();
+        String[] columns = {MOVENAME};
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT "+ MOVENAME + " FROM "+ TABLE_ACCELEROMETER_NAME+ " WHERE " + MOVEID + "="+moveId+";", null);
+
+        cursor.moveToFirst();
+
+        return getDataFromDatabase(TABLE_ACCELEROMETER_NAME, columns);
+    }
+
+    public ArrayList<String> getDataFromDatabase(String tableName ,String[] columns) {
+        ArrayList<String> arrayList = new ArrayList<String>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
         Cursor cursor = db.query(
-                TABLE_ORIENTATION_NAME,  // The table to query
+                tableName,  // The table to query
                 columns, // The columns to return
                 null,
                 null,                                // The columns for the WHERE clause
@@ -221,6 +197,7 @@ public class DbHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(MOVEID, moveid);
         contentValues.put(TIMESTAMP, timestamp);
+        contentValues.put(W, w);
         contentValues.put(X, x);
         contentValues.put(Y, y);
         contentValues.put(Z, z);

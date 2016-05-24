@@ -386,7 +386,7 @@ public class MainActivity extends Activity {
     }
 
     private void viewData() {
-        Intent intent = new Intent(getApplicationContext(), OpenGLES20.class);
+        Intent intent = new Intent(getApplicationContext(), ViewData.class);
         startActivity(intent);
     }
 
@@ -452,7 +452,7 @@ public class MainActivity extends Activity {
 
     private void writeDataToMemory() {
 
-        accelerometerTempData.append(moveId+ "; " + sdf.format(initialTime.getTime()) + "; " + accelX + "; " + accelY + "; "+ accelZ + "; "+ currentArm + "; "+ username + "; "+ moveName + "\n");
+        accelerometerTempData.append(moveId+ "; " + new Date(accelerometerTimestamp).toString() + "; " + accelX + "; " + accelY + "; "+ accelZ + "; "+ currentArm + "; "+ username + "; "+ moveName + "\n");
         gyroscopeTempData.append(moveId+ "; " + gyroscopeTimestamp + "; " + gyroX + "; " + gyroY + "; " + gyroZ + "; " + currentArm + "; " + username + "; " + moveName + "\n");
         orientationTempData.append(moveId+ "; " + orientationTimestamp + "; " + orientationW + "; " + orientationX + "; " + orientationY + "; " + orientationZ + "; " + currentArm + "; " + username + "; " + moveName + "\n");
         writeDataToDatabase();
@@ -462,14 +462,14 @@ public class MainActivity extends Activity {
 
         DbHelper dbh = new DbHelper(getApplicationContext());
 
-        dbh.insertAccelerometerRegister(String.valueOf(moveId), String.valueOf(accelerometerTimestamp), String.valueOf(accelX), String.valueOf(accelY), String.valueOf(accelZ), String.valueOf(currentArm), username, moveName);
+        dbh.insertAccelerometerRegister(String.valueOf(moveId), String.valueOf(new Date(accelerometerTimestamp)), String.valueOf(accelX), String.valueOf(accelY), String.valueOf(accelZ), String.valueOf(currentArm), username, moveName);
         dbh.insertGyroscopeRegister(String.valueOf(moveId), String.valueOf(gyroscopeTimestamp), String.valueOf(gyroX), String.valueOf(gyroY), String.valueOf(gyroZ), String.valueOf(currentArm), username, moveName);
         dbh.insertOrientationRegister(String.valueOf(moveId), String.valueOf(orientationTimestamp), String.valueOf(orientationW), String.valueOf(orientationX), String.valueOf(orientationY), String.valueOf(orientationZ), String.valueOf(currentArm), username, moveName);
 
     }
 
     public void cubeActivity(View view) {
-        Intent intent = new Intent();
+        Intent intent = new Intent(getApplicationContext(), OpenGLES20.class);
         startActivity(intent);
     }
 
