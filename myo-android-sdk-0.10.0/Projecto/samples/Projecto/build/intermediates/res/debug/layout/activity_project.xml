@@ -50,6 +50,20 @@
                         android:id="@+id/txtMovename"
                         android:hint="Move Name" />
 
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Reference Move"
+                        android:id="@+id/referenceMove"
+                        android:layout_gravity="right" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/txtObservations"
+                        android:layout_weight="0.82"
+                        android:hint="Observations" />
+
                     <Button
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -325,4 +339,4 @@
     </ScrollView>
 
 </RelativeLayout>
-<!-- From: file:/C:/Users/MASTER/Desktop/Projecto/ProjectoFinal/myo-android-sdk-0.10.0/Projecto/samples/Projecto/src/main/res/layout/activity_project.xml -->
+<!-- From: file:/D:/ProjectoFinal/myo-android-sdk-0.10.0/Projecto/samples/Projecto/src/main/res/layout/activity_project.xml -->

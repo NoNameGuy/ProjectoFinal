@@ -28,7 +28,8 @@
         android:label="@string/app_name" >
         <activity
             android:name="com.thalmic.android.sample.helloworld.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" />
+        <activity android:name="com.thalmic.android.sample.helloworld.SplashScreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,6 +38,9 @@
         </activity>
         <activity android:name="com.thalmic.android.sample.helloworld.ViewData" />
         <activity android:name="com.thalmic.android.sample.helloworld.OpenGLES20" />
+        <activity android:name="com.thalmic.android.sample.helloworld.UserType" />
+        <activity android:name="com.thalmic.android.sample.helloworld.MoveList" />
+        <activity android:name="com.thalmic.android.sample.helloworld.MoveOption" />
         <activity
             android:name="com.thalmic.myo.scanner.ScanActivity"
             android:label="@string/myosdk__title_activity_scan"
