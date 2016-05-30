@@ -81,6 +81,14 @@ activity#com.thalmic.android.sample.helloworld.MoveOption
 ADDED from AndroidManifest.xml:33:9
 	android:name
 		ADDED from AndroidManifest.xml:33:19
+activity#com.thalmic.android.sample.helloworld.PlaybackMove
+ADDED from AndroidManifest.xml:34:9
+	android:name
+		ADDED from AndroidManifest.xml:34:19
+activity#com.thalmic.android.sample.helloworld.MoveActions
+ADDED from AndroidManifest.xml:35:9
+	android:name
+		ADDED from AndroidManifest.xml:35:19
 uses-sdk
 INJECTED from AndroidManifest.xml:0:0 reason: use-sdk injection requested
 MERGED from com.thalmic:myosdk:0.10.0:7:5

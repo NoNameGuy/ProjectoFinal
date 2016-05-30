@@ -3,6 +3,7 @@ package com.thalmic.android.sample.helloworld;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLU;
+import android.provider.Settings;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -14,6 +15,22 @@ public class OpenGLRenderer implements GLSurfaceView.Renderer {
 
     private Cube mCube = new Cube();
     private float mCubeRotation;
+
+    private float orientationW;
+    private float orientationX;
+    private float orientationY;
+    private float orientationZ;
+
+    public void setOrientation (float orientationW, float  orientationX, float orientationY, float orientationZ){
+
+        this.orientationW = orientationW;
+        this.orientationX = orientationX;
+        this.orientationY = orientationY;
+        this.orientationZ = orientationZ;
+
+    }
+
+
 
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         gl.glClearColor(0.0f, 0.0f, 0.0f, 0.5f);
@@ -32,7 +49,8 @@ public class OpenGLRenderer implements GLSurfaceView.Renderer {
         gl.glLoadIdentity();
 
         gl.glTranslatef(0.0f, 0.0f, -10.0f);
-        gl.glRotatef(mCubeRotation, 1.0f, 1.0f, 1.0f);
+        gl.glRotatef(orientationW*(float) (180/Math.PI), orientationX*(float) (180/Math.PI), orientationY*(float) (180/Math.PI), orientationZ*(float) (180/Math.PI));
+        System.out.println(orientationW);
 
         mCube.draw(gl);
 

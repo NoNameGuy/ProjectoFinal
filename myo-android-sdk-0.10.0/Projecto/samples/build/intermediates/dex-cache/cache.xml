@@ -2,32 +2,32 @@
 <items version="2" >
 
     <item
-        jar="D:\ProjectoFinal\myo-android-sdk-0.10.0\Projecto\samples\Projecto\build\intermediates\exploded-aar\com.android.support\appcompat-v7\18.0.0\classes.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="8f11f56e350eacabf2273f646d981356eea0ed77">
-        <dex dex="D:\ProjectoFinal\myo-android-sdk-0.10.0\Projecto\samples\Projecto\build\intermediates\pre-dexed\debug\classes-e853d3af2738ac6918ec80c99276cfbd0d010e4e.jar" />
-    </item>
-    <item
-        jar="D:\ProjectoFinal\myo-android-sdk-0.10.0\Projecto\samples\Projecto\build\intermediates\exploded-aar\com.thalmic\myosdk\0.10.0\classes.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="d189db75174a41996c33bb243d2228aacf10fa53">
-        <dex dex="D:\ProjectoFinal\myo-android-sdk-0.10.0\Projecto\samples\Projecto\build\intermediates\pre-dexed\debug\classes-b297e16fc955565c54311e7755059fbbae86145d.jar" />
-    </item>
-    <item
-        jar="C:\Users\UTIL\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-v4\18.0.0\support-v4-18.0.0.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="44ec51e9d395a47aab135e5e1b556c0007442156">
-        <dex dex="D:\ProjectoFinal\myo-android-sdk-0.10.0\Projecto\samples\Projecto\build\intermediates\pre-dexed\debug\support-v4-18.0.0-38fb085cebe25bf90da71beb3c3a4b18dcd8eb01.jar" />
-    </item>
-    <item
-        jar="D:\ProjectoFinal\myo-android-sdk-0.10.0\Projecto\samples\Projecto\build\intermediates\exploded-aar\com.thalmic\myosdk\0.10.0\libs\native-libs.jar"
+        jar="/Users/paulovieira/Desktop/ProjectoFinal/myo-android-sdk-0.10.0/Projecto/samples/Projecto/build/intermediates/exploded-aar/com.thalmic/myosdk/0.10.0/libs/native-libs.jar"
         jumboMode="false"
         revision="19.1.0"
         sha1="d24ac9790966ffbd1bd9d921a262572c94903027">
-        <dex dex="D:\ProjectoFinal\myo-android-sdk-0.10.0\Projecto\samples\Projecto\build\intermediates\pre-dexed\debug\native-libs-4b1fe830259f5bd81d2cdf32ff17ee32c39f36a7.jar" />
+        <dex dex="/Users/paulovieira/Desktop/ProjectoFinal/myo-android-sdk-0.10.0/Projecto/samples/Projecto/build/intermediates/pre-dexed/debug/native-libs-6224a906d0718ccf6806404d84219f1f97be5b00.jar" />
+    </item>
+    <item
+        jar="/Users/paulovieira/Library/Android/sdk/extras/android/m2repository/com/android/support/support-v4/18.0.0/support-v4-18.0.0.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="44ec51e9d395a47aab135e5e1b556c0007442156">
+        <dex dex="/Users/paulovieira/Desktop/ProjectoFinal/myo-android-sdk-0.10.0/Projecto/samples/Projecto/build/intermediates/pre-dexed/debug/support-v4-18.0.0-468851c1c7e0e91eea4795d44140053725fc6752.jar" />
+    </item>
+    <item
+        jar="/Users/paulovieira/Desktop/ProjectoFinal/myo-android-sdk-0.10.0/Projecto/samples/Projecto/build/intermediates/exploded-aar/com.thalmic/myosdk/0.10.0/classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="d189db75174a41996c33bb243d2228aacf10fa53">
+        <dex dex="/Users/paulovieira/Desktop/ProjectoFinal/myo-android-sdk-0.10.0/Projecto/samples/Projecto/build/intermediates/pre-dexed/debug/classes-99696ced9068c67b0a80dd0c759547620fbb559e.jar" />
+    </item>
+    <item
+        jar="/Users/paulovieira/Desktop/ProjectoFinal/myo-android-sdk-0.10.0/Projecto/samples/Projecto/build/intermediates/exploded-aar/com.android.support/appcompat-v7/18.0.0/classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="8f11f56e350eacabf2273f646d981356eea0ed77">
+        <dex dex="/Users/paulovieira/Desktop/ProjectoFinal/myo-android-sdk-0.10.0/Projecto/samples/Projecto/build/intermediates/pre-dexed/debug/classes-38a041214a8d724e664be05b2c00fe83450398b9.jar" />
     </item>
 
 </items>

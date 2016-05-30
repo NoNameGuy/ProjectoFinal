@@ -41,6 +41,8 @@
         <activity android:name="com.thalmic.android.sample.helloworld.UserType" />
         <activity android:name="com.thalmic.android.sample.helloworld.MoveList" />
         <activity android:name="com.thalmic.android.sample.helloworld.MoveOption" />
+        <activity android:name="com.thalmic.android.sample.helloworld.PlaybackMove" />
+        <activity android:name="com.thalmic.android.sample.helloworld.MoveActions" />
         <activity
             android:name="com.thalmic.myo.scanner.ScanActivity"
             android:label="@string/myosdk__title_activity_scan"

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.InputType;
@@ -79,6 +80,10 @@ public class MainActivity extends Activity {
     private Date initialTime;
     private SimpleDateFormat sdf = new SimpleDateFormat("mm:ss");
     private int moveId;
+
+    private OpenGLRenderer renderer;
+    private GLSurfaceView glView;
+
 
     // Classes that inherit from AbstractDeviceListener can be used to receive events from Myo devices.
     // If you do not override an event, the default behavior is to do nothing.
@@ -172,6 +177,10 @@ public class MainActivity extends Activity {
             textZ.setText(String.format("%.2f", orientationZ));
 
             orientationTimestamp = timestamp;
+
+            renderer.setOrientation(dw, dx, dy, dz);
+            glView.requestRender();
+
         }
 
 
@@ -348,6 +357,10 @@ public class MainActivity extends Activity {
 
         // Next, register for DeviceListener callbacks.
         hub.addListener(mListener);
+
+        this.glView = (GLSurfaceView) findViewById(R.id.surfaceView);
+        this.renderer = new OpenGLRenderer();
+        glView.setRenderer(this.renderer);
 
     }
 
@@ -532,25 +545,5 @@ public class MainActivity extends Activity {
 
     }
 
-    //@Override
-    private void onAccelerometerData (Myo myo, long timestamp, Vector3 vector){
-
-        double dx = vector.x();
-
-        String sX = Double.toString(dx);
-
-        //posY = vector.y();
-        //posZ = vector.z();
-
-        //setContentView(R.layout.activity_project);
-
-        //TextView tv = (TextView) findViewById(R.id.accelDataX);
-        TextView tv = (TextView) findViewById(R.id.accelValueX);
-        tv.setText(sX);
-
-       //posY = (TextView) findViewById(R.id.accelDataY);
-        //posZ = (TextView) findViewById(R.id.accelDataZ);
-
-    }
 
 }

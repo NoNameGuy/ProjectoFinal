@@ -32,11 +32,17 @@
                     android:id="@+id/text"
                     android:text="@string/hello_world"
                     android:textSize="50dp"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
                     android:layout_height="wrap_content"
                     tools:ignore="SpUsage"
                     android:layout_row="0"
                     android:layout_column="0" />
+
+                <android.opengl.GLSurfaceView
+                    android:layout_width="177dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/surfaceView"
+                    android:layout_gravity="center_vertical" />
 
                 <LinearLayout
                     android:orientation="vertical"
