@@ -97,21 +97,21 @@ public class DbHelper extends SQLiteOpenHelper {
         ArrayList<String> arrayList = new ArrayList<String>();
         String[] columns = {ID, MOVEID, TIMESTAMP, X, Y, Z, CURRENTARM, USERNAME, MOVENAME };
 
-        return getDataFromDatabase(TABLE_ACCELEROMETER_NAME, columns);
+        return getDataFromDatabase(TABLE_ACCELEROMETER_NAME, columns,null,null);
     }
 
     public ArrayList<String> getAllGyroscopeRegists() {
         ArrayList<String> arrayList = new ArrayList<String>();
         String[] columns = {ID, MOVEID, TIMESTAMP, X, Y, Z, CURRENTARM, USERNAME, MOVENAME };
 
-        return getDataFromDatabase(TABLE_GYROSCOPE_NAME, columns);
+        return getDataFromDatabase(TABLE_GYROSCOPE_NAME, columns, null, null);
     }
 
     public ArrayList<String> getAllOrientationRegists() {
         ArrayList<String> arrayList = new ArrayList<String>();
         String[] columns = {ID, MOVEID, TIMESTAMP, W, X, Y, Z, CURRENTARM, USERNAME, MOVENAME };
 
-        return getDataFromDatabase(TABLE_ORIENTATION_NAME, columns);
+        return getDataFromDatabase(TABLE_ORIENTATION_NAME, columns, null, null);
     }
 
     public ArrayList<String> getAccelerometerMovename(String moveId) {
@@ -123,22 +123,21 @@ public class DbHelper extends SQLiteOpenHelper {
 
         cursor.moveToFirst();
 
-        return getDataFromDatabase(TABLE_ACCELEROMETER_NAME, columns);
+        return getDataFromDatabase(TABLE_ACCELEROMETER_NAME, columns, null, null);
     }
 
-    public ArrayList<String> getDataFromDatabase(String tableName ,String[] columns) {
+    public ArrayList<String> getDataFromDatabase(String tableName ,String[] columns, String whereClause, String[] whereParameters) {
         ArrayList<String> arrayList = new ArrayList<String>();
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(
                 tableName,  // The table to query
                 columns, // The columns to return
-                null,
-                null,                                // The columns for the WHERE clause
-                null,                            // The values for the WHERE clause
-                null,                                     // don't group the rows
-                null                                     // don't filter by row groups
-                //sortOrder                                 // The sort order
+                whereClause,// The columns for the WHERE clause
+                whereParameters,// The values for the WHERE clause
+                null,// don't group the rows
+                null,// don't filter by row groups
+                null // The sort order
         );
 
         cursor.moveToFirst();

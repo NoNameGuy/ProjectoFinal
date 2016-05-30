@@ -15,10 +15,10 @@ import database.DbHelper;
 
 public class ViewData extends Activity {
 
-    private final static String FILE_DIRECTORY = "/sdcard/SportsMove";
-    private final static String FILE_ORIENTATION = "/sdcard/SportsMove/orientation_data.csv";
-    private final static String FILE_ACCELEROMETER = "/sdcard/SportsMove/accelerometer_data.csv";
-    private final static String FILE_GYROSCOPE = "/sdcard/SportsMove/gyroscope_data.csv";
+    private final static String FILE_DIRECTORY = "/sdcard/SportsMove/";
+    private final static String FILE_ORIENTATION = "_orientation.csv";
+    private final static String FILE_ACCELEROMETER = "_accelerometer.csv";
+    private final static String FILE_GYROSCOPE = "_gyroscope.csv";
 
     private ListView obj;
     private DbHelper mydb;
@@ -75,7 +75,7 @@ public class ViewData extends Activity {
             File directory = new File(FILE_DIRECTORY);
             directory.mkdirs();
 
-            File myFile = new File(FILE_ACCELEROMETER);
+            File myFile = new File(FILE_DIRECTORY+mydb.getAccelerometerMovename("1")+FILE_ACCELEROMETER);
             if( !myFile.exists() ) {
                 myFile.createNewFile();
                 FileWriter fw  = new FileWriter(myFile, true);
@@ -105,7 +105,7 @@ public class ViewData extends Activity {
             File directory = new File(FILE_DIRECTORY);
             directory.mkdirs();
 
-            File myFile = new File(FILE_GYROSCOPE);
+            File myFile = new File(FILE_DIRECTORY+FILE_GYROSCOPE);
             if( !myFile.exists() ) {
                 myFile.createNewFile();
                 FileWriter fw  = new FileWriter(myFile, true);
@@ -136,7 +136,7 @@ public class ViewData extends Activity {
             File directory = new File(FILE_DIRECTORY);
             directory.mkdirs();
 
-            File myFile = new File(FILE_ORIENTATION);
+            File myFile = new File(FILE_DIRECTORY+FILE_ORIENTATION);
             if( !myFile.exists() ) {
                 myFile.createNewFile();
                 FileWriter fw  = new FileWriter(myFile, true);
