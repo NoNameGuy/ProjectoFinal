@@ -41,7 +41,6 @@ import database.DbHelper;
 public class MainActivity extends Activity {
 
     private TextView mLockStateView;
-    private TextView mTextView;
     private TextView posX;
     private TextView posY;
     private TextView posZ;
@@ -97,29 +96,6 @@ public class MainActivity extends Activity {
                 myo.unlock(Myo.UnlockType.HOLD);
                 Toast.makeText(getApplicationContext(), "unlocked", Toast.LENGTH_SHORT).show();
             }
-            mTextView.setTextColor(Color.CYAN);
-        }
-
-        // onDisconnect() is called whenever a Myo has been disconnected.
-        @Override
-        public void onDisconnect(Myo myo, long timestamp) {
-            // Set the text color of the text view to red when a Myo disconnects.
-            mTextView.setTextColor(Color.RED);
-        }
-
-        // onArmSync() is called whenever Myo has recognized a Sync Gesture after someone has put it on their
-        // arm. This lets Myo know which arm it's on and which way it's facing.
-        @Override
-        public void onArmSync(Myo myo, long timestamp, Arm arm, XDirection xDirection) {
-            mTextView.setText(myo.getArm() == Arm.LEFT ? R.string.arm_left : R.string.arm_right);
-        }
-
-        // onArmUnsync() is called whenever Myo has detected that it was moved from a stable position on a person's arm after
-        // it recognized the arm. Typically this happens when someone takes Myo off of their arm, but it can also happen
-        // when Myo is moved around on the arm.
-        @Override
-        public void onArmUnsync(Myo myo, long timestamp) {
-            mTextView.setText(R.string.sport_move);
         }
 
         // onUnlock() is called whenever a synced Myo has been unlocked. Under the standard locking
@@ -151,11 +127,6 @@ public class MainActivity extends Activity {
                 pitch *= -1;
             }
 
-            // Next, we apply a rotation to the text view using the roll, pitch, and yaw.
-            mTextView.setRotation(roll);
-            mTextView.setRotationX(pitch);
-            mTextView.setRotationY(yaw);
-
 
             float dw = (float) rotation.w();
             float dx = (float) rotation.x();
@@ -184,71 +155,6 @@ public class MainActivity extends Activity {
         }
 
 
-
-        // onPose() is called whenever a Myo provides a new pose.
-        @Override
-        public void onPose(Myo myo, long timestamp, Pose pose) {
-            // Handle the cases of the Pose enumeration, and change the text of the text view
-            // based on the pose we receive.
-            TextView textView = (TextView) findViewById(R.id.txtPose);
-            TextView txtArm = (TextView) findViewById(R.id.txtArm);
-
-            if(pose.equals(Pose.DOUBLE_TAP)) {
-                Toast.makeText(getApplicationContext(), "Double tap, current arm: "+myo.getArm(), Toast.LENGTH_SHORT).show();
-                currentArm = myo.getArm();
-                txtArm.setText(myo.getArm().toString());
-            }
-            switch (pose) {
-                case UNKNOWN:
-                    mTextView.setText(getString(R.string.hello_world));
-                    break;
-                case REST:
-                case DOUBLE_TAP:
-                    int restTextId = R.string.hello_world;
-                    switch (myo.getArm()) {
-                        case LEFT:
-                            textView.setText(getText(R.string.arm_left));
-                            restTextId = R.string.arm_left;
-                            break;
-                        case RIGHT:
-                            textView.setText(getText(R.string.arm_right));
-                            restTextId = R.string.arm_right;
-                            break;
-                    }
-                    mTextView.setText(getString(restTextId));
-                    break;
-                case FIST:
-                    textView.setText(getText(R.string.pose_fist));
-                    mTextView.setText(getString(R.string.pose_fist));
-                    break;
-                case WAVE_IN:
-                    textView.setText(getText(R.string.pose_wavein));
-                    mTextView.setText(getString(R.string.pose_wavein));
-                    break;
-                case WAVE_OUT:
-                    textView.setText(getText(R.string.pose_waveout));
-                    mTextView.setText(getString(R.string.pose_waveout));
-                    break;
-                case FINGERS_SPREAD:
-                    textView.setText(getText(R.string.pose_fingersspread));
-                    mTextView.setText(getString(R.string.pose_fingersspread));
-                    break;
-            }
-
-            if (pose != Pose.UNKNOWN && pose != Pose.REST) {
-                // Tell the Myo to stay unlocked until told otherwise. We do that here so you can
-                // hold the poses without the Myo becoming locked.
-                myo.unlock(Myo.UnlockType.HOLD);
-
-                // Notify the Myo that the pose has resulted in an action, in this case changing
-                // the text on the screen. The Myo will vibrate.
-                myo.notifyUserAction();
-            } else {
-                // Tell the Myo to stay unlocked only for a short period. This allows the Myo to
-                // stay unlocked while poses are being performed, but lock after inactivity.
-                myo.unlock(Myo.UnlockType.TIMED);
-            }
-        }
 
         @Override
         public void onAccelerometerData (Myo myo, long timestamp, Vector3 vector){
@@ -344,7 +250,6 @@ public class MainActivity extends Activity {
 
 
         mLockStateView = (TextView) findViewById(R.id.lock_state);
-        mTextView = (TextView) findViewById(R.id.text);
 
         // First, we initialize the Hub singleton with an application identifier.
         Hub hub = Hub.getInstance();

@@ -39,4 +39,4 @@
         android:layout_marginTop="77dp"
         android:onClick="selectTeacher" />
 </RelativeLayout>
-<!-- From: file:/D:/ProjectoFinal/myo-android-sdk-0.10.0/Projecto/samples/Projecto/src/main/res/layout/activity_user_type.xml -->
+<!-- From: file:/Users/paulovieira/Desktop/ProjectoFinal/myo-android-sdk-0.10.0/Projecto/samples/Projecto/src/main/res/layout/activity_user_type.xml -->
