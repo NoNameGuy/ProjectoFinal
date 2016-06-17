@@ -9,7 +9,10 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import database.DbHelper;
 
@@ -21,7 +24,11 @@ public class ViewData extends Activity {
     private final static String FILE_GYROSCOPE = "_gyroscope.csv";
     private static String FILE_MOVE =null;
     public String MOVENAME="MOVENAME";
+    public String USERNAME="USERNAME";
+    public String DATE="DATE";
     private String moveName;
+    private String userName;
+    private String date;
 
     private ListView obj;
     private DbHelper mydb;
@@ -36,6 +43,8 @@ public class ViewData extends Activity {
 
         showAccelerometerData(findViewById(R.id.btnAccelerometer));
         moveName=(String) getIntent().getExtras().get(MOVENAME);
+        userName=(String) getIntent().getExtras().get(USERNAME);
+        date=(String) getIntent().getExtras().get(DATE);
     }
 
     public void showAccelerometerData(View view) {
@@ -180,7 +189,7 @@ public class ViewData extends Activity {
             File directory = new File(FILE_DIRECTORY);
             directory.mkdirs();
 
-            FILE_MOVE = "/sdcard/SportsMove/"+moveName+".csv";
+            FILE_MOVE = "/sdcard/SportsMove/"+userName+"_"+moveName+"_"+getDate()+".csv";
 
             File myFile = new File(FILE_MOVE);
             if( !myFile.exists() ) {
@@ -195,6 +204,7 @@ public class ViewData extends Activity {
                 ArrayList<String> array_list = new ArrayList<String>(mydb.getAllRegists());
 
                 for (String temp : array_list) {
+                    temp.replace(" ", "; ");
                     fw.append(temp + "\n");
                 }
 
@@ -208,5 +218,10 @@ public class ViewData extends Activity {
             e.printStackTrace();
         }
 
+    }
+
+    private String getDate() {
+        DateFormat df = new SimpleDateFormat("dd-mm-yyyy, HH:mm");
+        return date = df.format(Calendar.getInstance().getTime());
     }
 }

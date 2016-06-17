@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,14 +24,11 @@ import com.thalmic.myo.Arm;
 import com.thalmic.myo.DeviceListener;
 import com.thalmic.myo.Hub;
 import com.thalmic.myo.Myo;
-import com.thalmic.myo.Pose;
 import com.thalmic.myo.Quaternion;
 import com.thalmic.myo.Vector3;
 import com.thalmic.myo.XDirection;
 import com.thalmic.myo.scanner.ScanActivity;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -82,6 +78,8 @@ public class MainActivity extends Activity {
     private int moveId;
 
     public String MOVENAME="MOVENAME";
+    public String USERNAME="USERNAME";
+    public String DATE="DATE";
 
     private OpenGLRenderer renderer;
     private GLSurfaceView glView;
@@ -302,7 +300,8 @@ public class MainActivity extends Activity {
 
     private void viewData() {
         Intent intent = new Intent(getApplicationContext(), ViewData.class);
-        intent.putExtra(MOVENAME, moveName );
+        intent.putExtra(MOVENAME, moveName.trim() );
+        intent.putExtra(USERNAME, username.trim() );
         startActivity(intent);
     }
 
