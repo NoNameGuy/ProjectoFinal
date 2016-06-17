@@ -195,7 +195,7 @@ public class ViewData extends Activity {
             if( !myFile.exists() ) {
                 myFile.createNewFile();
                 FileWriter fw  = new FileWriter(myFile, true);
-                fw.append("Accel_x; Accel_y; Accel_z; Gyro_x; Gyro_y; Gyro_z; Orient_x; Orient_y; Orient_z; Orient_w; CurrentArm\n");
+                fw.append("MoveId; Accel_x; Accel_y; Accel_z; Gyro_x; Gyro_y; Gyro_z; Orient_x; Orient_y; Orient_z; Orient_w; CurrentArm\n");
                 fw.close();
             }
             FileWriter fw  = new FileWriter(myFile, true);
@@ -204,7 +204,7 @@ public class ViewData extends Activity {
                 ArrayList<String> array_list = new ArrayList<String>(mydb.getAllRegists());
 
                 for (String temp : array_list) {
-                    temp.replace(" ", "; ");
+                    temp = temp.replaceAll(" ", "; ");
                     fw.append(temp + "\n");
                 }
 

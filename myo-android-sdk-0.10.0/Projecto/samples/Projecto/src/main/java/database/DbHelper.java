@@ -135,7 +135,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     public ArrayList<String> getAllRegists() {
         ArrayList<String> arrayList = new ArrayList<String>();
-        String[] columns = {ID, MOVEID, Accel_X, Accel_Y, Accel_Z, Gyro_X, Gyro_Y, Gyro_Z, Orient_W, Orient_X, Orient_Y, Orient_Z, CURRENTARM};
+        String[] columns = {MOVEID, Accel_X, Accel_Y, Accel_Z, Gyro_X, Gyro_Y, Gyro_Z, Orient_W, Orient_X, Orient_Y, Orient_Z, CURRENTARM};
         return getDataFromDatabase(TABLE_ALL_REGISTS, columns);
     }
 
