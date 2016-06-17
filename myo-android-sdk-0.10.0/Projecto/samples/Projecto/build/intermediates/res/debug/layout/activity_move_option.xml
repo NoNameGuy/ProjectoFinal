@@ -28,4 +28,4 @@
         android:layout_centerHorizontal="true"
         android:onClick="savedMoves" />
 </RelativeLayout>
-<!-- From: file:/Users/paulovieira/Desktop/ProjectoFinal/myo-android-sdk-0.10.0/Projecto/samples/Projecto/src/main/res/layout/activity_move_option.xml -->
+<!-- From: file:/C:/Users/MASTER/Desktop/Projecto/ProjectoFinal/myo-android-sdk-0.10.0/Projecto/samples/Projecto/src/main/res/layout/activity_move_option.xml -->

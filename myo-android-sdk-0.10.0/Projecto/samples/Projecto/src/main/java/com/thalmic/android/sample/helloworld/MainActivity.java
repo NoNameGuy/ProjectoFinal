@@ -71,6 +71,7 @@ public class MainActivity extends Activity {
     private StringBuilder accelerometerTempData = new StringBuilder("");
     private StringBuilder gyroscopeTempData = new StringBuilder("");
     private StringBuilder orientationTempData = new StringBuilder("");
+    private StringBuilder moveTempData = new StringBuilder("");
 
     private Arm currentArm;
     private String username;
@@ -79,6 +80,8 @@ public class MainActivity extends Activity {
     private Date initialTime;
     private SimpleDateFormat sdf = new SimpleDateFormat("mm:ss");
     private int moveId;
+
+    public String MOVENAME="MOVENAME";
 
     private OpenGLRenderer renderer;
     private GLSurfaceView glView;
@@ -167,12 +170,6 @@ public class MainActivity extends Activity {
             accelY = dy;
             accelZ = dz;
 
-            //posY = vector.y();
-            //posZ = vector.z();
-
-            //setContentView(R.layout.activity_project);
-
-            //TextView tv = (TextView) findViewById(R.id.accelDataX);
             TextView textX = (TextView) findViewById(R.id.accelValueX);
             textX.setText(String.format("%.2f", accelX));
             TextView textY = (TextView) findViewById(R.id.accelValueY);
@@ -305,6 +302,7 @@ public class MainActivity extends Activity {
 
     private void viewData() {
         Intent intent = new Intent(getApplicationContext(), ViewData.class);
+        intent.putExtra(MOVENAME, moveName );
         startActivity(intent);
     }
 
@@ -356,14 +354,6 @@ public class MainActivity extends Activity {
 
     private void stopRecording() {
 
-        /*fileHandler.postDelayed(new Runnable() {
-            public void run() {
-                //writeDataToFile();
-                writeDataToDatabase();
-                fileHandler.postDelayed(this, dataWriteDelay);
-            }
-        }, dataWriteDelay);*/
-
         memoryHandler.removeCallbacksAndMessages(null);
         writeDataToDatabase();
     }
@@ -373,6 +363,7 @@ public class MainActivity extends Activity {
         accelerometerTempData.append(moveId+ "; " + new Date(accelerometerTimestamp).toString() + "; " + accelX + "; " + accelY + "; "+ accelZ + "; "+ currentArm + "; "+ username + "; "+ moveName + "\n");
         gyroscopeTempData.append(moveId+ "; " + gyroscopeTimestamp + "; " + gyroX + "; " + gyroY + "; " + gyroZ + "; " + currentArm + "; " + username + "; " + moveName + "\n");
         orientationTempData.append(moveId+ "; " + orientationTimestamp + "; " + orientationW + "; " + orientationX + "; " + orientationY + "; " + orientationZ + "; " + currentArm + "; " + username + "; " + moveName + "\n");
+        moveTempData.append(moveId +"; " + accelX +"; "+ accelY +"; "+ accelZ +"; "+ gyroX + "; " + gyroY + "; " + gyroZ + "; " + orientationW + "; " + orientationX + "; " + orientationY + "; " + orientationZ + "; " + currentArm + "\n");
         writeDataToDatabase();
     }
 
@@ -383,6 +374,7 @@ public class MainActivity extends Activity {
         dbh.insertAccelerometerRegister(String.valueOf(moveId), String.valueOf(new Date(accelerometerTimestamp)), String.valueOf(accelX), String.valueOf(accelY), String.valueOf(accelZ), String.valueOf(currentArm), username, moveName);
         dbh.insertGyroscopeRegister(String.valueOf(moveId), String.valueOf(gyroscopeTimestamp), String.valueOf(gyroX), String.valueOf(gyroY), String.valueOf(gyroZ), String.valueOf(currentArm), username, moveName);
         dbh.insertOrientationRegister(String.valueOf(moveId), String.valueOf(orientationTimestamp), String.valueOf(orientationW), String.valueOf(orientationX), String.valueOf(orientationY), String.valueOf(orientationZ), String.valueOf(currentArm), username, moveName);
+        dbh.insertAllRegister(String.valueOf(moveId), String.valueOf(accelX), String.valueOf(accelY), String.valueOf(accelZ), String.valueOf(gyroX), String.valueOf(gyroY), String.valueOf(gyroZ), String.valueOf(orientationW), String.valueOf(orientationX), String.valueOf(orientationY), String.valueOf(orientationZ), String.valueOf(currentArm));
 
     }
 
@@ -390,65 +382,5 @@ public class MainActivity extends Activity {
         Intent intent = new Intent(getApplicationContext(), OpenGLES20.class);
         startActivity(intent);
     }
-
-    public void writeDataToFileCsv(){
-
-        //accelerometer data
-        try {
-            File myFile = new File(FILE_ACCELEROMETER);
-            if( !myFile.exists() ) {
-                myFile.createNewFile();
-                FileWriter fw  = new FileWriter(myFile, true);
-                fw.append("Time; X; Y; Z; Current Arm; Username; Move Name; \n");
-                fw.close();
-            }
-            FileWriter fw  = new FileWriter(myFile, true);
-            //fw.append(currentTime/1000 + "; " + accelX + "; " + accelY + "; " + accelZ + "\n");
-            //fw.append(accelerometerTimestamp/1000 + "; " + accelX + "; " + accelY + "; " + accelZ + "\n");
-            fw.append(accelerometerTempData);
-            accelerometerTempData.delete(0, accelerometerTempData.length());
-            fw.close();
-        } catch(Exception e){
-            e.printStackTrace();
-        }
-
-        //gyroscope data
-        try {
-            File myFile = new File(FILE_GYROSCOPE);
-            if( !myFile.exists() ) {
-                myFile.createNewFile();
-                FileWriter fw  = new FileWriter(myFile, true);
-                fw.append("Time; X; Y; Z; Current Arm; Username; Move Name \n");
-                fw.close();
-            }
-            FileWriter fw  = new FileWriter(myFile, true);
-            //fw.append(currentTime/1000 + "; " + gyroX + "; " + gyroY + "; " + gyroZ + "\n");
-            fw.append(gyroscopeTempData);
-            gyroscopeTempData.delete(0, gyroscopeTempData.length());
-            fw.close();
-        } catch(Exception e){
-            e.printStackTrace();
-        }
-
-        //orientation data
-        try {
-            File myFile = new File(FILE_ORIENTATION);
-            if( !myFile.exists() ) {
-                myFile.createNewFile();
-                FileWriter fw  = new FileWriter(myFile, true);
-                fw.append("Time; W; X; Y; Z; Current Arm; Username; Move Name\n");
-                fw.close();
-            }
-            FileWriter fw  = new FileWriter(myFile, true);
-            //fw.append(currentTime/1000 + "; " + orientationW + "; " + orientationX + "; " + orientationY + "; " + orientationZ + "\n");
-            fw.append(orientationTempData);
-            orientationTempData.delete(0, orientationTempData.length());
-            fw.close();
-        } catch(Exception e){
-            e.printStackTrace();
-        }
-
-    }
-
 
 }

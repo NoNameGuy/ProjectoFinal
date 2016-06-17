@@ -19,6 +19,9 @@ public class ViewData extends Activity {
     private final static String FILE_ORIENTATION = "_orientation.csv";
     private final static String FILE_ACCELEROMETER = "_accelerometer.csv";
     private final static String FILE_GYROSCOPE = "_gyroscope.csv";
+    private static String FILE_MOVE =null;
+    public String MOVENAME="MOVENAME";
+    private String moveName;
 
     private ListView obj;
     private DbHelper mydb;
@@ -32,7 +35,7 @@ public class ViewData extends Activity {
         obj = (ListView)findViewById(R.id.listView);
 
         showAccelerometerData(findViewById(R.id.btnAccelerometer));
-
+        moveName=(String) getIntent().getExtras().get(MOVENAME);
     }
 
     public void showAccelerometerData(View view) {
@@ -65,6 +68,16 @@ public class ViewData extends Activity {
         }
     }
 
+    public void showAllData(View view) {
+
+        if(mydb.getAllRegists().size()!=0) {
+            ArrayList<String> array_list = new ArrayList<String>(mydb.getAllRegists());
+            ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, array_list);
+
+            obj.setAdapter(arrayAdapter);
+        }
+    }
+
     public void clearAll(View view){
         mydb.clearAllTables();
     }
@@ -75,7 +88,7 @@ public class ViewData extends Activity {
             File directory = new File(FILE_DIRECTORY);
             directory.mkdirs();
 
-            File myFile = new File(FILE_DIRECTORY+mydb.getAccelerometerMovename("1")+FILE_ACCELEROMETER);
+            File myFile = new File(FILE_ACCELEROMETER);
             if( !myFile.exists() ) {
                 myFile.createNewFile();
                 FileWriter fw  = new FileWriter(myFile, true);
@@ -105,7 +118,7 @@ public class ViewData extends Activity {
             File directory = new File(FILE_DIRECTORY);
             directory.mkdirs();
 
-            File myFile = new File(FILE_DIRECTORY+FILE_GYROSCOPE);
+            File myFile = new File(FILE_GYROSCOPE);
             if( !myFile.exists() ) {
                 myFile.createNewFile();
                 FileWriter fw  = new FileWriter(myFile, true);
@@ -136,7 +149,7 @@ public class ViewData extends Activity {
             File directory = new File(FILE_DIRECTORY);
             directory.mkdirs();
 
-            File myFile = new File(FILE_DIRECTORY+FILE_ORIENTATION);
+            File myFile = new File(FILE_ORIENTATION);
             if( !myFile.exists() ) {
                 myFile.createNewFile();
                 FileWriter fw  = new FileWriter(myFile, true);
@@ -161,5 +174,39 @@ public class ViewData extends Activity {
         } catch(Exception e){
             e.printStackTrace();
         }
+        //MOVE
+
+        try {
+            File directory = new File(FILE_DIRECTORY);
+            directory.mkdirs();
+
+            FILE_MOVE = "/sdcard/SportsMove/"+moveName+".csv";
+
+            File myFile = new File(FILE_MOVE);
+            if( !myFile.exists() ) {
+                myFile.createNewFile();
+                FileWriter fw  = new FileWriter(myFile, true);
+                fw.append("Accel_x; Accel_y; Accel_z; Gyro_x; Gyro_y; Gyro_z; Orient_x; Orient_y; Orient_z; Orient_w; CurrentArm\n");
+                fw.close();
+            }
+            FileWriter fw  = new FileWriter(myFile, true);
+
+            if(mydb.getAllRegists().size()!=0){
+                ArrayList<String> array_list = new ArrayList<String>(mydb.getAllRegists());
+
+                for (String temp : array_list) {
+                    fw.append(temp + "\n");
+                }
+
+                Toast.makeText(getApplicationContext(), "Exported", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "No data to export", Toast.LENGTH_SHORT).show();
+            }
+
+            fw.close();
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
     }
 }
