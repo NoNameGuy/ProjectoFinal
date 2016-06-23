@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -302,8 +303,8 @@ public class MainActivity extends Activity {
 
     private void viewData() {
         Intent intent = new Intent(getApplicationContext(), ViewData.class);
-        intent.putExtra(MOVENAME, moveName.trim() );
-        intent.putExtra(USERNAME, username.trim() );
+        intent.putExtra(MOVENAME, moveName );
+        intent.putExtra(USERNAME, username );
         startActivity(intent);
     }
 
@@ -341,6 +342,12 @@ public class MainActivity extends Activity {
     private void startRecording(String moveName) {
         this.moveName = moveName;
         initialTime  = new Date();
+
+        CheckBox checkBox = (CheckBox) findViewById(R.id.referenceMove);
+        if(checkBox!=null && checkBox.isChecked()==true)
+            reference = 1;
+        else
+            reference = 0;
 
         memoryHandler.postDelayed(new Runnable() {
             public void run() {
