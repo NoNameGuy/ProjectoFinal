@@ -69,7 +69,7 @@ public class DbHelper extends SQLiteOpenHelper {
             + Accel_X + " int, " + Accel_Y + " int, " + Accel_Z + " int, "
             + Gyro_X + " int, " + Gyro_Y + " int, "+ Gyro_Z + " int, "
             + Orient_W + " int, " + Orient_X + " int, " + Orient_Y + " int, " + Orient_Z+ " int, "
-            + CURRENTARM + " varchar );";
+            + CURRENTARM + " varchar," + REFERENCE + " int);";
 
 
     private static final String DATABASE_DELETE_ACCELEROMETER_REGISTS = "delete from "
@@ -135,7 +135,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     public ArrayList<String> getAllRegists() {
         ArrayList<String> arrayList = new ArrayList<String>();
-        String[] columns = {MOVEID, Accel_X, Accel_Y, Accel_Z, Gyro_X, Gyro_Y, Gyro_Z, Orient_W, Orient_X, Orient_Y, Orient_Z, CURRENTARM};
+        String[] columns = {MOVEID, Accel_X, Accel_Y, Accel_Z, Gyro_X, Gyro_Y, Gyro_Z, Orient_W, Orient_X, Orient_Y, Orient_Z, CURRENTARM, REFERENCE};
         return getDataFromDatabase(TABLE_ALL_REGISTS, columns);
     }
 
@@ -233,7 +233,7 @@ public class DbHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    public boolean insertAllRegister (String moveid, String accel_X, String accel_Y, String accel_Z, String gyro_X, String gyro_Y, String gyro_Z, String orient_W, String orient_X, String orient_Y, String orient_Z, String currentArm)
+    public boolean insertAllRegister (String moveid, String accel_X, String accel_Y, String accel_Z, String gyro_X, String gyro_Y, String gyro_Z, String orient_W, String orient_X, String orient_Y, String orient_Z, String currentArm, String reference)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -249,6 +249,7 @@ public class DbHelper extends SQLiteOpenHelper {
         contentValues.put(Orient_Y, orient_Y);
         contentValues.put(Orient_Z, orient_Z);
         contentValues.put(CURRENTARM, currentArm);
+        contentValues.put(REFERENCE, reference);
         db.insert(TABLE_ALL_REGISTS, null, contentValues);
         return true;
     }
