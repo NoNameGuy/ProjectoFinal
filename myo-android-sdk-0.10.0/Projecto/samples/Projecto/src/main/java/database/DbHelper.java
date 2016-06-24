@@ -65,7 +65,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_CREATE_TABLE_ALL_REGISTS = "create table "
             + TABLE_ALL_REGISTS + "( "+ ID
-            + " integer primary key autoincrement, " + MOVEID + " int, "
+            + " integer primary key autoincrement, " + MOVEID + " int, " + TIMESTAMP + " varchar, "
             + Accel_X + " int, " + Accel_Y + " int, " + Accel_Z + " int, "
             + Gyro_X + " int, " + Gyro_Y + " int, "+ Gyro_Z + " int, "
             + Orient_W + " int, " + Orient_X + " int, " + Orient_Y + " int, " + Orient_Z+ " int, "
@@ -135,7 +135,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     public ArrayList<String> getAllRegists() {
         ArrayList<String> arrayList = new ArrayList<String>();
-        String[] columns = {MOVEID, Accel_X, Accel_Y, Accel_Z, Gyro_X, Gyro_Y, Gyro_Z, Orient_W, Orient_X, Orient_Y, Orient_Z, CURRENTARM, REFERENCE};
+        String[] columns = {MOVEID, TIMESTAMP, Accel_X, Accel_Y, Accel_Z, Gyro_X, Gyro_Y, Gyro_Z, Orient_W, Orient_X, Orient_Y, Orient_Z, CURRENTARM, REFERENCE};
         return getDataFromDatabase(TABLE_ALL_REGISTS, columns);
     }
 
@@ -233,11 +233,12 @@ public class DbHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    public boolean insertAllRegister (String moveid, String accel_X, String accel_Y, String accel_Z, String gyro_X, String gyro_Y, String gyro_Z, String orient_W, String orient_X, String orient_Y, String orient_Z, String currentArm, String reference)
+    public boolean insertAllRegister (String moveid, String timestamp, String accel_X, String accel_Y, String accel_Z, String gyro_X, String gyro_Y, String gyro_Z, String orient_W, String orient_X, String orient_Y, String orient_Z, String currentArm, String reference)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(MOVEID, moveid);
+        contentValues.put(TIMESTAMP, timestamp);
         contentValues.put(Accel_X, accel_X);
         contentValues.put(Accel_Y, accel_Y);
         contentValues.put(Accel_Z, accel_Z);
