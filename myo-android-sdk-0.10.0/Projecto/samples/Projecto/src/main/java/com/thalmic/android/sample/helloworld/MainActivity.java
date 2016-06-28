@@ -179,13 +179,6 @@ public class MainActivity extends Activity {
             textZ.setText(String.format("%.2f", accelZ));
 
             accelerometerTimestamp = timestamp;
-            if(myo.getXDirection()==XDirection.TOWARD_WRIST){
-                Toast.makeText(getApplicationContext(),"toward wrist", Toast.LENGTH_SHORT).show();
-            }
-            if(myo.getXDirection()==XDirection.TOWARD_ELBOW){
-                Toast.makeText(getApplicationContext(),"toward elbow", Toast.LENGTH_SHORT).show();
-            }
-
 
         }
 

@@ -69,7 +69,7 @@ public class DbHelper extends SQLiteOpenHelper {
             + Accel_X + " int, " + Accel_Y + " int, " + Accel_Z + " int, "
             + Gyro_X + " int, " + Gyro_Y + " int, "+ Gyro_Z + " int, "
             + Orient_W + " int, " + Orient_X + " int, " + Orient_Y + " int, " + Orient_Z+ " int, "
-            + CURRENTARM + " varchar," + REFERENCE + " int);";
+            + CURRENTARM + " varchar," + REFERENCE + " int, " + USERNAME + " varchar );";
 
 
     private static final String DATABASE_DELETE_ACCELEROMETER_REGISTS = "delete from "
@@ -113,34 +113,49 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     public ArrayList<String> getAllAccelerometerRegists() {
-        ArrayList<String> arrayList = new ArrayList<String>();
         String[] columns = {ID, MOVEID, TIMESTAMP, Accel_X, Accel_Y, Accel_Z, CURRENTARM, USERNAME, MOVENAME };
 
-        return getDataFromDatabase(TABLE_ACCELEROMETER_NAME, columns);
+        return getDataFromDatabase(TABLE_ACCELEROMETER_NAME, columns, null, null);
     }
 
     public ArrayList<String> getAllGyroscopeRegists() {
-        ArrayList<String> arrayList = new ArrayList<String>();
         String[] columns = {ID, MOVEID, TIMESTAMP, Gyro_X, Gyro_Y, Gyro_Z, CURRENTARM, USERNAME, MOVENAME };
 
-        return getDataFromDatabase(TABLE_GYROSCOPE_NAME, columns);
+        return getDataFromDatabase(TABLE_GYROSCOPE_NAME, columns, null, null);
     }
 
     public ArrayList<String> getAllOrientationRegists() {
-        ArrayList<String> arrayList = new ArrayList<String>();
         String[] columns = {ID, MOVEID, TIMESTAMP, Orient_W, Orient_X, Orient_Y, Orient_Z, CURRENTARM, USERNAME, MOVENAME };
 
-        return getDataFromDatabase(TABLE_ORIENTATION_NAME, columns);
+        return getDataFromDatabase(TABLE_ORIENTATION_NAME, columns, null, null);
+    }
+
+    public ArrayList<String> getAllUsernames() {
+        String[] columns = {USERNAME};
+        return getDataFromDatabase(TABLE_ALL_REGISTS, columns, null, null);
+    }
+
+    public ArrayList<String> getAllDates() {
+        String[] columns = {TIMESTAMP};
+        return getDataFromDatabase(TABLE_ALL_REGISTS, columns, null, null);
     }
 
     public ArrayList<String> getAllRegists() {
-        ArrayList<String> arrayList = new ArrayList<String>();
-        String[] columns = {MOVEID, TIMESTAMP, Accel_X, Accel_Y, Accel_Z, Gyro_X, Gyro_Y, Gyro_Z, Orient_W, Orient_X, Orient_Y, Orient_Z, CURRENTARM, REFERENCE};
-        return getDataFromDatabase(TABLE_ALL_REGISTS, columns);
+        String[] columns = {MOVEID, TIMESTAMP, Accel_X, Accel_Y, Accel_Z, Gyro_X, Gyro_Y, Gyro_Z, Orient_W, Orient_X, Orient_Y, Orient_Z, CURRENTARM, REFERENCE, USERNAME};
+        return getDataFromDatabase(TABLE_ALL_REGISTS, columns, null, null);
+    }
+
+    public ArrayList<String> getAllRegistsByUsername(String username) {
+        String[] columns = {MOVEID, TIMESTAMP, Accel_X, Accel_Y, Accel_Z, Gyro_X, Gyro_Y, Gyro_Z, Orient_W, Orient_X, Orient_Y, Orient_Z, CURRENTARM, REFERENCE, USERNAME};
+        return null;//getDataFromDatabase(TABLE_ALL_REGISTS, columns, USERNAME, username);
+    }
+
+    public ArrayList<String> getAllRegistsByDate(String timestamp) {
+        String[] columns = {MOVEID, TIMESTAMP, Accel_X, Accel_Y, Accel_Z, Gyro_X, Gyro_Y, Gyro_Z, Orient_W, Orient_X, Orient_Y, Orient_Z, CURRENTARM, REFERENCE, USERNAME};
+        return null;//getDataFromDatabase(TABLE_ALL_REGISTS, columns, TIMESTAMP, timestamp);
     }
 
     public ArrayList<String> getAccelerometerMovename(String moveId) {
-        ArrayList<String> arrayList = new ArrayList<String>();
         String[] columns = {MOVENAME};
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -148,18 +163,18 @@ public class DbHelper extends SQLiteOpenHelper {
 
         cursor.moveToFirst();
 
-        return getDataFromDatabase(TABLE_ACCELEROMETER_NAME, columns);
+        return getDataFromDatabase(TABLE_ACCELEROMETER_NAME, columns, null, null);
     }
 
-    public ArrayList<String> getDataFromDatabase(String tableName ,String[] columns) {
+    public ArrayList<String> getDataFromDatabase(String tableName ,String[] columns,String whereColumn,String[] whereValues) {
         ArrayList<String> arrayList = new ArrayList<String>();
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(
                 tableName,  // The table to query
                 columns, // The columns to return
-                null,// The columns for the WHERE clause
-                null,// The values for the WHERE clause
+                whereColumn,// The columns for the WHERE clause
+                whereValues,// The values for the WHERE clause
                 null,// don't group the rows
                 null,// don't filter by row groups
                 null // The sort order
@@ -259,6 +274,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(DATABASE_DELETE_ACCELEROMETER_REGISTS);
         db.execSQL(DATABASE_DELETE_GYROSCOPE_REGISTS);
         db.execSQL(DATABASE_DELETE_ORIENTATION_REGISTS);
+        db.execSQL(DATABASE_DELETE_ALL_REGISTS);
         db.close();
     }
 }

@@ -785,16 +785,16 @@ containing a value of this type.
         public static final int action_mode_bar=0x7f09002f;
         public static final int action_mode_bar_stub=0x7f09002e;
         public static final int action_mode_close_button=0x7f090022;
-        public static final int action_scan=0x7f090085;
-        public static final int action_view_data=0x7f090086;
+        public static final int action_scan=0x7f090087;
+        public static final int action_view_data=0x7f090088;
         public static final int activity_chooser_view_content=0x7f090023;
         public static final int always=0x7f09000f;
         public static final int beginning=0x7f09000a;
-        public static final int btnAccelerometer=0x7f09007a;
-        public static final int btnClearAll=0x7f09007e;
-        public static final int btnExportCSV=0x7f09007f;
-        public static final int btnGyroscope=0x7f09007b;
-        public static final int btnOrientation=0x7f09007c;
+        public static final int btnAccelerometer=0x7f09007c;
+        public static final int btnClearAll=0x7f090080;
+        public static final int btnExportCSV=0x7f090081;
+        public static final int btnGyroscope=0x7f09007d;
+        public static final int btnOrientation=0x7f09007e;
         public static final int btnRecord=0x7f090057;
         public static final int btnStudent=0x7f090078;
         public static final int btnTeacher=0x7f090079;
@@ -809,6 +809,7 @@ containing a value of this type.
         public static final int checkbox=0x7f09002b;
         public static final int collapseActionView=0x7f090011;
         public static final int container=0x7f090050;
+        public static final int dateSpinner=0x7f09007b;
         public static final int default_activity_button=0x7f090026;
         public static final int dialog=0x7f090012;
         public static final int disableHome=0x7f090008;
@@ -829,16 +830,16 @@ containing a value of this type.
         public static final int left_icon=0x7f090031;
         public static final int linearLayout=0x7f090052;
         public static final int listMode=0x7f090001;
-        public static final int listView=0x7f09007d;
+        public static final int listView=0x7f09007f;
         public static final int list_item=0x7f090027;
         public static final int lock_state=0x7f090058;
         public static final int middle=0x7f09000b;
-        public static final int myosdk__action_scan=0x7f090087;
-        public static final int myosdk__connection_state_dot=0x7f090083;
-        public static final int myosdk__fragment_scan=0x7f090080;
-        public static final int myosdk__progress=0x7f090082;
-        public static final int myosdk__required_firmware_version_text=0x7f090081;
-        public static final int myosdk__scan_result_view=0x7f090084;
+        public static final int myosdk__action_scan=0x7f090089;
+        public static final int myosdk__connection_state_dot=0x7f090085;
+        public static final int myosdk__fragment_scan=0x7f090082;
+        public static final int myosdk__progress=0x7f090084;
+        public static final int myosdk__required_firmware_version_text=0x7f090083;
+        public static final int myosdk__scan_result_view=0x7f090086;
         public static final int never=0x7f09000d;
         public static final int none=0x7f090009;
         public static final int normal=0x7f090000;
@@ -904,6 +905,7 @@ containing a value of this type.
         public static final int txtPose=0x7f090073;
         public static final int up=0x7f09001f;
         public static final int useLogo=0x7f090003;
+        public static final int usernameSpinner=0x7f09007a;
         public static final int withText=0x7f090010;
     }
     public static final class integer {

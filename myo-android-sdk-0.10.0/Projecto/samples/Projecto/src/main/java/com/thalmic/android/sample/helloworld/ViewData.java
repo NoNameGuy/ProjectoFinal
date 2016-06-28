@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.io.File;
@@ -33,6 +34,9 @@ public class ViewData extends Activity {
     private ListView obj;
     private DbHelper mydb;
 
+    //private Spinner dateSpinner = (Spinner) findViewById(R.id.dateSpinner);
+    //private Spinner usernameSpinner = (Spinner) findViewById(R.id.usernameSpinner);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +49,58 @@ public class ViewData extends Activity {
         moveName=(String) getIntent().getExtras().get(MOVENAME);
         userName=(String) getIntent().getExtras().get(USERNAME);
         date=(String) getIntent().getExtras().get(DATE);
+
+        populateNameSpinner();
+        populateDateSpinner();
+        filterData();
+    }
+
+    private void populateNameSpinner()
+    {
+        Spinner usernameSpinner = (Spinner) findViewById(R.id.usernameSpinner);
+        ArrayList<String> usernames = new ArrayList<String>();
+        usernames.add("Username");
+        for(String username:mydb.getAllUsernames())
+        {
+            if(!usernames.contains(username))
+                usernames.add(username);
+        }
+
+
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, usernames);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        usernameSpinner.setAdapter(adapter);
+    }
+
+    private void populateDateSpinner()
+    {
+        Spinner dateSpinner = (Spinner) findViewById(R.id.dateSpinner);
+        ArrayList<String> dates = new ArrayList<String>();
+        dates.add("Date");
+        for(String date:mydb.getAllDates())
+        {
+            if(!dates.contains(date))
+                dates.add(date);
+        }
+
+
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, dates);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dateSpinner.setAdapter(adapter);
+    }
+
+    public void filterData(){
+        Toast.makeText(this, "Filter data", Toast.LENGTH_SHORT).show();
+        Spinner usernameSpinner = (Spinner) findViewById(R.id.usernameSpinner);
+        if(usernameSpinner.getAdapter().getItem(0) != usernameSpinner.getSelectedItem()){
+            //filter username results
+
+        }
+/*
+        if(dateSpinner.getAdapter().getItem(0) != dateSpinner.getSelectedItem()){
+            //filter date results
+        }*/
+
     }
 
     public void showAccelerometerData(View view) {
@@ -52,7 +108,10 @@ public class ViewData extends Activity {
         ArrayList<String> array_list = new ArrayList<String>(mydb.getAllAccelerometerRegists());
         ArrayAdapter arrayAdapter=new ArrayAdapter(this,android.R.layout.simple_list_item_1, array_list);
 
-        obj.setAdapter(arrayAdapter);}
+        obj.setAdapter(arrayAdapter);
+        } else {
+            obj.setAdapter(null);
+        }
 
 
     }
@@ -64,7 +123,10 @@ public class ViewData extends Activity {
         ArrayList<String> array_list = new ArrayList<String>(mydb.getAllGyroscopeRegists());
         ArrayAdapter arrayAdapter=new ArrayAdapter(this,android.R.layout.simple_list_item_1, array_list);
 
-        obj.setAdapter(arrayAdapter);}
+        obj.setAdapter(arrayAdapter);
+        } else {
+            obj.setAdapter(null);
+        }
     }
 
     public void showOrientationData(View view) {
@@ -74,6 +136,8 @@ public class ViewData extends Activity {
             ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, array_list);
 
             obj.setAdapter(arrayAdapter);
+        } else {
+            obj.setAdapter(null);
         }
     }
 
@@ -89,6 +153,7 @@ public class ViewData extends Activity {
 
     public void clearAll(View view){
         mydb.clearAllTables();
+        showAccelerometerData(findViewById(R.id.btnAccelerometer));
     }
 
     public void exportCSV(View view) {
