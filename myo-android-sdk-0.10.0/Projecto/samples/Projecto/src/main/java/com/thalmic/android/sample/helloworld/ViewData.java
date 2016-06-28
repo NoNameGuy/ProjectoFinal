@@ -60,12 +60,11 @@ public class ViewData extends Activity {
         Spinner usernameSpinner = (Spinner) findViewById(R.id.usernameSpinner);
         ArrayList<String> usernames = new ArrayList<String>();
         usernames.add("Username");
-        for(String username:mydb.getAllUsernames())
-        {
+        for(String username:mydb.getAllUsernames()){
+
             if(!usernames.contains(username))
                 usernames.add(username);
         }
-
 
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, usernames);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

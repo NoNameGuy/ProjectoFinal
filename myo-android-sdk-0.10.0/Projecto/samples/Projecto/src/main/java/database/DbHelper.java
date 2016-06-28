@@ -115,34 +115,34 @@ public class DbHelper extends SQLiteOpenHelper {
     public ArrayList<String> getAllAccelerometerRegists() {
         String[] columns = {ID, MOVEID, TIMESTAMP, Accel_X, Accel_Y, Accel_Z, CURRENTARM, USERNAME, MOVENAME };
 
-        return getDataFromDatabase(TABLE_ACCELEROMETER_NAME, columns, null, null);
+        return getDataFromDatabase(false, TABLE_ACCELEROMETER_NAME, columns, null, null);
     }
 
     public ArrayList<String> getAllGyroscopeRegists() {
         String[] columns = {ID, MOVEID, TIMESTAMP, Gyro_X, Gyro_Y, Gyro_Z, CURRENTARM, USERNAME, MOVENAME };
 
-        return getDataFromDatabase(TABLE_GYROSCOPE_NAME, columns, null, null);
+        return getDataFromDatabase(false, TABLE_GYROSCOPE_NAME, columns, null, null);
     }
 
     public ArrayList<String> getAllOrientationRegists() {
         String[] columns = {ID, MOVEID, TIMESTAMP, Orient_W, Orient_X, Orient_Y, Orient_Z, CURRENTARM, USERNAME, MOVENAME };
 
-        return getDataFromDatabase(TABLE_ORIENTATION_NAME, columns, null, null);
+        return getDataFromDatabase(false, TABLE_ORIENTATION_NAME, columns, null, null);
     }
 
     public ArrayList<String> getAllUsernames() {
         String[] columns = {USERNAME};
-        return getDataFromDatabase(TABLE_ALL_REGISTS, columns, null, null);
+        return getDataFromDatabase(true, TABLE_ORIENTATION_NAME, columns, null, null);
     }
 
     public ArrayList<String> getAllDates() {
         String[] columns = {TIMESTAMP};
-        return getDataFromDatabase(TABLE_ALL_REGISTS, columns, null, null);
+        return getDataFromDatabase(false, TABLE_ALL_REGISTS, columns, null, null);
     }
 
     public ArrayList<String> getAllRegists() {
         String[] columns = {MOVEID, TIMESTAMP, Accel_X, Accel_Y, Accel_Z, Gyro_X, Gyro_Y, Gyro_Z, Orient_W, Orient_X, Orient_Y, Orient_Z, CURRENTARM, REFERENCE, USERNAME};
-        return getDataFromDatabase(TABLE_ALL_REGISTS, columns, null, null);
+        return getDataFromDatabase(false, TABLE_ALL_REGISTS, columns, null, null);
     }
 
     public ArrayList<String> getAllRegistsByUsername(String username) {
@@ -163,22 +163,14 @@ public class DbHelper extends SQLiteOpenHelper {
 
         cursor.moveToFirst();
 
-        return getDataFromDatabase(TABLE_ACCELEROMETER_NAME, columns, null, null);
+        return getDataFromDatabase(false, TABLE_ACCELEROMETER_NAME, columns, null, null);
     }
 
-    public ArrayList<String> getDataFromDatabase(String tableName ,String[] columns,String whereColumn,String[] whereValues) {
+    public ArrayList<String> getDataFromDatabase(boolean distinct, String tableName ,String[] columns,String whereColumn,String[] whereValues) {
         ArrayList<String> arrayList = new ArrayList<String>();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.query(
-                tableName,  // The table to query
-                columns, // The columns to return
-                whereColumn,// The columns for the WHERE clause
-                whereValues,// The values for the WHERE clause
-                null,// don't group the rows
-                null,// don't filter by row groups
-                null // The sort order
-        );
+        Cursor cursor = db.query(distinct,tableName,columns,whereColumn,whereValues, null, null,null,null);
 
         cursor.moveToFirst();
 
