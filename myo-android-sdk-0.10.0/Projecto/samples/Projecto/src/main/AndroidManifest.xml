@@ -32,7 +32,7 @@
         <activity android:name=".MoveList" />
         <activity android:name=".MoveOption" />
         <activity android:name=".PlaybackMove" />
-        <activity android:name=".MoveActions"></activity>
+        <activity android:name=".MoveActions" />
     </application>
 
 </manifest>

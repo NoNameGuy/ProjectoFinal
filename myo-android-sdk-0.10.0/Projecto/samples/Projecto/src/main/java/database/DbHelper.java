@@ -69,7 +69,7 @@ public class DbHelper extends SQLiteOpenHelper {
             + Accel_X + " int, " + Accel_Y + " int, " + Accel_Z + " int, "
             + Gyro_X + " int, " + Gyro_Y + " int, "+ Gyro_Z + " int, "
             + Orient_W + " int, " + Orient_X + " int, " + Orient_Y + " int, " + Orient_Z+ " int, "
-            + CURRENTARM + " varchar," + REFERENCE + " int, " + USERNAME + " varchar );";
+            + CURRENTARM + " varchar," + REFERENCE + " int, " + USERNAME + " varchar, " + MOVENAME + " varchar );";
 
 
     private static final String DATABASE_DELETE_ACCELEROMETER_REGISTS = "delete from "
@@ -140,19 +140,33 @@ public class DbHelper extends SQLiteOpenHelper {
         return getDataFromDatabase(false, TABLE_ALL_REGISTS, columns, null, null);
     }
 
+    public ArrayList<String> getAllMovenames() {
+        String[] columns = {MOVENAME};
+        return getDataFromDatabase(false, TABLE_ALL_REGISTS, columns, null, null);
+    }
+
+
     public ArrayList<String> getAllRegists() {
-        String[] columns = {MOVEID, TIMESTAMP, Accel_X, Accel_Y, Accel_Z, Gyro_X, Gyro_Y, Gyro_Z, Orient_W, Orient_X, Orient_Y, Orient_Z, CURRENTARM, REFERENCE, USERNAME};
+        String[] columns = {MOVEID, TIMESTAMP, Accel_X, Accel_Y, Accel_Z, Gyro_X, Gyro_Y, Gyro_Z, Orient_W, Orient_X, Orient_Y, Orient_Z, CURRENTARM, REFERENCE, USERNAME, MOVENAME};
         return getDataFromDatabase(false, TABLE_ALL_REGISTS, columns, null, null);
     }
 
     public ArrayList<String> getAllRegistsByUsername(String username) {
-        String[] columns = {MOVEID, TIMESTAMP, Accel_X, Accel_Y, Accel_Z, Gyro_X, Gyro_Y, Gyro_Z, Orient_W, Orient_X, Orient_Y, Orient_Z, CURRENTARM, REFERENCE, USERNAME};
-        return null;//getDataFromDatabase(TABLE_ALL_REGISTS, columns, USERNAME, username);
+        String[] columns = {MOVEID, TIMESTAMP, Accel_X, Accel_Y, Accel_Z, Gyro_X, Gyro_Y, Gyro_Z, Orient_W, Orient_X, Orient_Y, Orient_Z, CURRENTARM, REFERENCE, USERNAME, MOVENAME};
+        String[] usrName = {username};
+        return null;//getDataFromDatabase(false, TABLE_ALL_REGISTS, columns, USERNAME, usrName);
     }
 
     public ArrayList<String> getAllRegistsByDate(String timestamp) {
-        String[] columns = {MOVEID, TIMESTAMP, Accel_X, Accel_Y, Accel_Z, Gyro_X, Gyro_Y, Gyro_Z, Orient_W, Orient_X, Orient_Y, Orient_Z, CURRENTARM, REFERENCE, USERNAME};
-        return null;//getDataFromDatabase(TABLE_ALL_REGISTS, columns, TIMESTAMP, timestamp);
+        String[] columns = {MOVEID, TIMESTAMP, Accel_X, Accel_Y, Accel_Z, Gyro_X, Gyro_Y, Gyro_Z, Orient_W, Orient_X, Orient_Y, Orient_Z, CURRENTARM, REFERENCE, USERNAME, MOVENAME};
+        //String[] time = new String[] {timestamp};
+        return null;//getDataFromDatabase(false, TABLE_ALL_REGISTS, columns, TIMESTAMP, null);
+    }
+
+    public ArrayList<String> getAllRegistsByMovename(String movename) {
+        String[] columns = {MOVEID, TIMESTAMP, Accel_X, Accel_Y, Accel_Z, Gyro_X, Gyro_Y, Gyro_Z, Orient_W, Orient_X, Orient_Y, Orient_Z, CURRENTARM, REFERENCE, USERNAME, MOVENAME};
+        //String[] mvname = new String[] {movename};
+        return null;//getDataFromDatabase(false, TABLE_ALL_REGISTS, columns, MOVENAME, null);
     }
 
     public ArrayList<String> getAccelerometerMovename(String moveId) {
@@ -240,7 +254,7 @@ public class DbHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    public boolean insertAllRegister (String moveid, String timestamp, String accel_X, String accel_Y, String accel_Z, String gyro_X, String gyro_Y, String gyro_Z, String orient_W, String orient_X, String orient_Y, String orient_Z, String currentArm, String reference)
+    public boolean insertAllRegister (String moveid, String timestamp, String accel_X, String accel_Y, String accel_Z, String gyro_X, String gyro_Y, String gyro_Z, String orient_W, String orient_X, String orient_Y, String orient_Z, String currentArm, String reference, String username, String movename )
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -258,6 +272,8 @@ public class DbHelper extends SQLiteOpenHelper {
         contentValues.put(Orient_Z, orient_Z);
         contentValues.put(CURRENTARM, currentArm);
         contentValues.put(REFERENCE, reference);
+        contentValues.put(USERNAME, username);
+        contentValues.put(MOVENAME, movename);
         db.insert(TABLE_ALL_REGISTS, null, contentValues);
         return true;
     }

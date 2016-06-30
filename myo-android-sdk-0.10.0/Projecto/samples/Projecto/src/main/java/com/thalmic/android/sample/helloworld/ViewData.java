@@ -1,9 +1,14 @@
 package com.thalmic.android.sample.helloworld;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -24,9 +29,6 @@ public class ViewData extends Activity {
     private final static String FILE_ACCELEROMETER = "_accelerometer.csv";
     private final static String FILE_GYROSCOPE = "_gyroscope.csv";
     private static String FILE_MOVE =null;
-    public String MOVENAME="MOVENAME";
-    public String USERNAME="USERNAME";
-    public String DATE="DATE";
     private String moveName;
     private String userName;
     private String date;
@@ -34,8 +36,9 @@ public class ViewData extends Activity {
     private ListView obj;
     private DbHelper mydb;
 
-    //private Spinner dateSpinner = (Spinner) findViewById(R.id.dateSpinner);
-    //private Spinner usernameSpinner = (Spinner) findViewById(R.id.usernameSpinner);
+    private Spinner dateSpinner;
+    protected Spinner usernameSpinner;
+    protected Spinner movenameSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,18 +49,21 @@ public class ViewData extends Activity {
         obj = (ListView)findViewById(R.id.listView);
 
         showAccelerometerData(findViewById(R.id.btnAccelerometer));
-        moveName=(String) getIntent().getExtras().get(MOVENAME);
-        userName=(String) getIntent().getExtras().get(USERNAME);
-        date=(String) getIntent().getExtras().get(DATE);
+        moveName=(String) getIntent().getExtras().get(Constants.MOVENAME);
+        userName=(String) getIntent().getExtras().get(Constants.USERNAME);
+
+        usernameSpinner = (Spinner) findViewById(R.id.usernameSpinner);
+        dateSpinner = (Spinner) findViewById(R.id.dateSpinner);
+        movenameSpinner = (Spinner) findViewById(R.id.movenameSpinner);
 
         populateNameSpinner();
         populateDateSpinner();
+        populateMovenameSpinner();
         filterData();
     }
 
     private void populateNameSpinner()
     {
-        Spinner usernameSpinner = (Spinner) findViewById(R.id.usernameSpinner);
         ArrayList<String> usernames = new ArrayList<String>();
         usernames.add("Username");
         for(String username:mydb.getAllUsernames()){
@@ -73,7 +79,6 @@ public class ViewData extends Activity {
 
     private void populateDateSpinner()
     {
-        Spinner dateSpinner = (Spinner) findViewById(R.id.dateSpinner);
         ArrayList<String> dates = new ArrayList<String>();
         dates.add("Date");
         for(String date:mydb.getAllDates())
@@ -88,17 +93,103 @@ public class ViewData extends Activity {
         dateSpinner.setAdapter(adapter);
     }
 
+    private void populateMovenameSpinner()
+    {
+        ArrayList<String> moves = new ArrayList<String>();
+        moves.add("Movename");
+        for(String move:mydb.getAllMovenames())
+        {
+            if(!moves.contains(move))
+                moves.add(move);
+        }
+
+
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, moves);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        movenameSpinner.setAdapter(adapter);
+    }
+
     public void filterData(){
-        Toast.makeText(this, "Filter data", Toast.LENGTH_SHORT).show();
-        Spinner usernameSpinner = (Spinner) findViewById(R.id.usernameSpinner);
+        final Spinner usernameSpinner = (Spinner) findViewById(R.id.usernameSpinner);
         if(usernameSpinner.getAdapter().getItem(0) != usernameSpinner.getSelectedItem()){
             //filter username results
 
         }
-/*
-        if(dateSpinner.getAdapter().getItem(0) != dateSpinner.getSelectedItem()){
-            //filter date results
-        }*/
+
+
+        usernameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getApplicationContext(), "Filter data", Toast.LENGTH_SHORT).show();
+
+                String username = usernameSpinner.getItemAtPosition(position).toString().trim();
+                if(mydb.getAllRegistsByUsername(username)!=null){
+                    ArrayList<String> array_list = new ArrayList<String>(mydb.getAllRegistsByUsername(username));
+                    ArrayAdapter arrayAdapter=new ArrayAdapter(getApplicationContext(),android.R.layout.simple_list_item_1, array_list);
+
+                    obj.setAdapter(arrayAdapter);
+                } else {
+                    ArrayList<String> array_list = new ArrayList<String>(mydb.getAllRegists());
+                    ArrayAdapter arrayAdapter=new ArrayAdapter(getApplicationContext(),android.R.layout.simple_list_item_1, array_list);
+
+                    obj.setAdapter(arrayAdapter);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        dateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getApplicationContext(), "Filter data", Toast.LENGTH_SHORT).show();
+                String date = (String) dateSpinner.getItemAtPosition(position);
+                if (mydb.getAllRegistsByDate(date) != null) {
+                    ArrayList<String> array_list = new ArrayList<String>(mydb.getAllRegistsByDate(date));
+                    ArrayAdapter arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, array_list);
+
+                    obj.setAdapter(arrayAdapter);
+                } else {
+                    ArrayList<String> array_list = new ArrayList<String>(mydb.getAllRegists());
+                    ArrayAdapter arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, array_list);
+
+                    obj.setAdapter(arrayAdapter);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+        movenameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getApplicationContext(), "Filter data", Toast.LENGTH_SHORT).show();
+                String movename = (String) movenameSpinner.getItemAtPosition(position);
+                if (mydb.getAllRegistsByDate(date) != null) {
+                    ArrayList<String> array_list = new ArrayList<String>(mydb.getAllRegistsByMovename(movename));
+                    ArrayAdapter arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, array_list);
+
+                    obj.setAdapter(arrayAdapter);
+                } else {
+                    ArrayList<String> array_list = new ArrayList<String>(mydb.getAllRegists());
+                    ArrayAdapter arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, array_list);
+
+                    obj.setAdapter(arrayAdapter);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
     }
 
@@ -155,7 +246,30 @@ public class ViewData extends Activity {
         showAccelerometerData(findViewById(R.id.btnAccelerometer));
     }
 
-    public void exportCSV(View view) {
+    public void promptExportCSV(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("File Name");
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT );
+        input.setText(userName+"_"+moveName+"_"+getDate());
+        builder.setView(input);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                exportCSV(input.getText().toString().trim());
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+    }
+
+    public void exportCSV(String filename) {
         //Accelerometer
         try {
             File directory = new File(FILE_DIRECTORY);
@@ -253,7 +367,7 @@ public class ViewData extends Activity {
             File directory = new File(FILE_DIRECTORY);
             directory.mkdirs();
 
-            FILE_MOVE = "/sdcard/SportsMove/"+userName+"_"+moveName+"_"+getDate()+".csv";
+            FILE_MOVE = "/sdcard/SportsMove/"+filename+".csv";
 
             File myFile = new File(FILE_MOVE);
             if( !myFile.exists() ) {

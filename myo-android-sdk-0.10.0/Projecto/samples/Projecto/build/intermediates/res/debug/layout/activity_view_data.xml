@@ -34,6 +34,12 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/dateSpinner"
                 android:layout_weight="0.13" />
+
+            <Spinner
+                android:layout_width="92dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/movenameSpinner"
+                android:layout_weight="0.13" />
         </LinearLayout>
 
         <LinearLayout
@@ -87,10 +93,10 @@
                 android:layout_height="wrap_content"
                 android:text="Export CSV"
                 android:id="@+id/btnExportCSV"
-                android:onClick="exportCSV" />
+                android:onClick="promptExportCSV" />
         </LinearLayout>
 
     </LinearLayout>
 
 </RelativeLayout>
-<!-- From: file:/C:/Users/MASTER/Desktop/Projecto/ProjectoFinal/myo-android-sdk-0.10.0/Projecto/samples/Projecto/src/main/res/layout/activity_view_data.xml -->
+<!-- From: file:/D:/ProjectoFinal/myo-android-sdk-0.10.0/Projecto/samples/Projecto/src/main/res/layout/activity_view_data.xml -->

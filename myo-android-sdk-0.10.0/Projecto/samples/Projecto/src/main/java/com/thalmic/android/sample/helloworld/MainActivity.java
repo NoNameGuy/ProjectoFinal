@@ -9,6 +9,7 @@ import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.InputType;
+import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -61,15 +62,7 @@ public class MainActivity extends Activity {
     private long gyroscopeTimestamp;
     private long orientationTimestamp;
 
-    private final static String FILE_ORIENTATION = "/sdcard/orientation_data.csv";
-    private final static String FILE_ACCELEROMETER = "/sdcard/accelerometer_data.csv";
-    private final static String FILE_GYROSCOPE = "/sdcard/gyroscope_data.csv";
-
-    private StringBuilder accelerometerTempData = new StringBuilder("");
-    private StringBuilder gyroscopeTempData = new StringBuilder("");
-    private StringBuilder orientationTempData = new StringBuilder("");
-    private StringBuilder moveTempData = new StringBuilder("");
-
+    
     private Arm currentArm;
     private String username;
     private String moveName;
@@ -80,9 +73,6 @@ public class MainActivity extends Activity {
     private SimpleDateFormat sdf = new SimpleDateFormat("mm:ss");
     private int moveId;
 
-    public String MOVENAME="MOVENAME";
-    public String USERNAME="USERNAME";
-    public String DATE="DATE";
 
     private OpenGLRenderer renderer;
     private GLSurfaceView glView;
@@ -227,7 +217,7 @@ public class MainActivity extends Activity {
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                username = input.getText().toString();
+                username = input.getText().toString().trim();
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -296,8 +286,8 @@ public class MainActivity extends Activity {
 
     private void viewData() {
         Intent intent = new Intent(getApplicationContext(), ViewData.class);
-        intent.putExtra(MOVENAME, moveName );
-        intent.putExtra(USERNAME, username );
+        intent.putExtra(Constants.MOVENAME, moveName );
+        intent.putExtra(Constants.USERNAME, username );
         startActivity(intent);
     }
 
@@ -376,7 +366,9 @@ public class MainActivity extends Activity {
         dbh.insertAccelerometerRegister(String.valueOf(moveId), String.valueOf(new Date(accelerometerTimestamp)), String.valueOf(accelX), String.valueOf(accelY), String.valueOf(accelZ), String.valueOf(currentArm), username, moveName);
         dbh.insertGyroscopeRegister(String.valueOf(moveId), String.valueOf(gyroscopeTimestamp), String.valueOf(gyroX), String.valueOf(gyroY), String.valueOf(gyroZ), String.valueOf(currentArm), username, moveName);
         dbh.insertOrientationRegister(String.valueOf(moveId), String.valueOf(orientationTimestamp), String.valueOf(orientationW), String.valueOf(orientationX), String.valueOf(orientationY), String.valueOf(orientationZ), String.valueOf(currentArm), username, moveName);
-        dbh.insertAllRegister(String.valueOf(moveId), String.valueOf(accelerometerTimestamp), String.valueOf(accelX), String.valueOf(accelY), String.valueOf(accelZ), String.valueOf(gyroX), String.valueOf(gyroY), String.valueOf(gyroZ), String.valueOf(orientationW), String.valueOf(orientationX), String.valueOf(orientationY), String.valueOf(orientationZ), String.valueOf(currentArm), String.valueOf(reference));
+        dbh.insertAllRegister(String.valueOf(moveId), String.valueOf(DateFormat.format("dd-MM-yyyy hh:mm", accelerometerTimestamp)), String.valueOf(accelX), String.valueOf(accelY), String.valueOf(accelZ), null, null, null, null, null, null, null, String.valueOf(currentArm), String.valueOf(reference), username, moveName);
+        dbh.insertAllRegister(String.valueOf(moveId), String.valueOf(DateFormat.format("dd-MM-yyyy hh:mm", orientationTimestamp)), null, null, null, null, null, null, String.valueOf(orientationW), String.valueOf(orientationX), String.valueOf(orientationY), String.valueOf(orientationZ), String.valueOf(currentArm), String.valueOf(reference), username, moveName);
+        dbh.insertAllRegister(String.valueOf(moveId), String.valueOf(DateFormat.format("dd-MM-yyyy hh:mm", gyroscopeTimestamp)), null, null, null, String.valueOf(gyroX), String.valueOf(gyroY), String.valueOf(gyroZ), null, null, null, null, String.valueOf(currentArm), String.valueOf(reference), username, moveName);
 
     }
 
