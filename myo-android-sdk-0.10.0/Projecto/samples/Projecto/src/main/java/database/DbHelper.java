@@ -154,19 +154,20 @@ public class DbHelper extends SQLiteOpenHelper {
     public ArrayList<String> getAllRegistsByUsername(String username) {
         String[] columns = {MOVEID, TIMESTAMP, Accel_X, Accel_Y, Accel_Z, Gyro_X, Gyro_Y, Gyro_Z, Orient_W, Orient_X, Orient_Y, Orient_Z, CURRENTARM, REFERENCE, USERNAME, MOVENAME};
         String[] usrName = {username};
-        return null;//getDataFromDatabase(false, TABLE_ALL_REGISTS, columns, USERNAME, usrName);
+        System.out.println(usrName[0]);
+        return getDataFromDatabase(false, TABLE_ALL_REGISTS, columns, USERNAME+"=?", usrName);
     }
 
     public ArrayList<String> getAllRegistsByDate(String timestamp) {
         String[] columns = {MOVEID, TIMESTAMP, Accel_X, Accel_Y, Accel_Z, Gyro_X, Gyro_Y, Gyro_Z, Orient_W, Orient_X, Orient_Y, Orient_Z, CURRENTARM, REFERENCE, USERNAME, MOVENAME};
         //String[] time = new String[] {timestamp};
-        return null;//getDataFromDatabase(false, TABLE_ALL_REGISTS, columns, TIMESTAMP, null);
+        return getDataFromDatabase(false, TABLE_ALL_REGISTS, columns, TIMESTAMP+"=?", null);
     }
 
     public ArrayList<String> getAllRegistsByMovename(String movename) {
         String[] columns = {MOVEID, TIMESTAMP, Accel_X, Accel_Y, Accel_Z, Gyro_X, Gyro_Y, Gyro_Z, Orient_W, Orient_X, Orient_Y, Orient_Z, CURRENTARM, REFERENCE, USERNAME, MOVENAME};
         //String[] mvname = new String[] {movename};
-        return null;//getDataFromDatabase(false, TABLE_ALL_REGISTS, columns, MOVENAME, null);
+        return getDataFromDatabase(false, TABLE_ALL_REGISTS, columns, MOVENAME+"=?", null);
     }
 
     public ArrayList<String> getAccelerometerMovename(String moveId) {
@@ -274,6 +275,7 @@ public class DbHelper extends SQLiteOpenHelper {
         contentValues.put(REFERENCE, reference);
         contentValues.put(USERNAME, username);
         contentValues.put(MOVENAME, movename);
+
         db.insert(TABLE_ALL_REGISTS, null, contentValues);
         return true;
     }
