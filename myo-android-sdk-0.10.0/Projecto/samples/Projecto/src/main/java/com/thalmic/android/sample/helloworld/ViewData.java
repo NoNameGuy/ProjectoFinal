@@ -110,12 +110,6 @@ public class ViewData extends Activity {
     }
 
     public void filterData(){
-        final Spinner usernameSpinner = (Spinner) findViewById(R.id.usernameSpinner);
-        if(usernameSpinner.getAdapter().getItem(0) != usernameSpinner.getSelectedItem()){
-            //filter username results
-
-        }
-
 
         usernameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -123,16 +117,15 @@ public class ViewData extends Activity {
                 Toast.makeText(getApplicationContext(), "Filter data", Toast.LENGTH_SHORT).show();
 
                 String username = usernameSpinner.getItemAtPosition(position).toString().trim();
-                if(mydb.getAllRegistsByUsername(username)!=null){
-                    ArrayList<String> array_list = new ArrayList<String>(mydb.getAllRegistsByUsername(username));
-                    ArrayAdapter arrayAdapter=new ArrayAdapter(getApplicationContext(),android.R.layout.simple_list_item_1, array_list);
 
-                    obj.setAdapter(arrayAdapter);
-                } else {
+                if(mydb.getAllRegistsByUsername(username).size()==0 || usernameSpinner.getAdapter().getItem(0).toString().equals(usernameSpinner.getSelectedItem().toString())){
+                    //preenche os dados todos
                     ArrayList<String> array_list = new ArrayList<String>(mydb.getAllRegists());
-                    ArrayAdapter arrayAdapter=new ArrayAdapter(getApplicationContext(),android.R.layout.simple_list_item_1, array_list);
-
-                    obj.setAdapter(arrayAdapter);
+                    fillList(array_list);
+                } else {
+                    //preenche os dados selecionados
+                    ArrayList<String> array_list = new ArrayList<String>(mydb.getAllRegistsByUsername(username));
+                    fillList(array_list);
                 }
             }
 
@@ -145,18 +138,17 @@ public class ViewData extends Activity {
         dateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), "Filter data", Toast.LENGTH_SHORT).show();
-                String date = (String) dateSpinner.getItemAtPosition(position);
-                if (mydb.getAllRegistsByDate(date) != null) {
-                    ArrayList<String> array_list = new ArrayList<String>(mydb.getAllRegistsByDate(date));
-                    ArrayAdapter arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, array_list);
 
-                    obj.setAdapter(arrayAdapter);
-                } else {
+                String date = dateSpinner.getItemAtPosition(position).toString().trim();
+
+                if(mydb.getAllRegistsByDate(date).size()==0 || dateSpinner.getAdapter().getItem(0).toString().equals(dateSpinner.getSelectedItem().toString())){
+                    //preenche os dados todos
                     ArrayList<String> array_list = new ArrayList<String>(mydb.getAllRegists());
-                    ArrayAdapter arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, array_list);
-
-                    obj.setAdapter(arrayAdapter);
+                    fillList(array_list);
+                } else {
+                    //preenche os dados selecionados
+                    ArrayList<String> array_list = new ArrayList<String>(mydb.getAllRegistsByDate(date));
+                    fillList(array_list);
                 }
             }
 
@@ -170,18 +162,15 @@ public class ViewData extends Activity {
         movenameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), "Filter data", Toast.LENGTH_SHORT).show();
-                String movename = (String) movenameSpinner.getItemAtPosition(position);
-                if (mydb.getAllRegistsByDate(date) != null) {
-                    ArrayList<String> array_list = new ArrayList<String>(mydb.getAllRegistsByMovename(movename));
-                    ArrayAdapter arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, array_list);
-
-                    obj.setAdapter(arrayAdapter);
-                } else {
+                String move = movenameSpinner.getItemAtPosition(position).toString().trim();
+                if (mydb.getAllRegistsByMovename(move).size() == 0 || movenameSpinner.getAdapter().getItem(0).toString().equals(movenameSpinner.getSelectedItem().toString())) {
+                    //preenche os dados todos
                     ArrayList<String> array_list = new ArrayList<String>(mydb.getAllRegists());
-                    ArrayAdapter arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, array_list);
-
-                    obj.setAdapter(arrayAdapter);
+                    fillList(array_list);
+                } else {
+                    //preenche os dados selecionados
+                    ArrayList<String> array_list = new ArrayList<String>(mydb.getAllRegistsByMovename(move));
+                    fillList(array_list);
                 }
             }
 
@@ -191,6 +180,13 @@ public class ViewData extends Activity {
             }
         });
 
+    }
+
+    private void fillList(ArrayList<String> array_list) {
+        //ArrayList<String> array_list = new ArrayList<String>(mydb.getAllRegistsByMovename(move));
+        ArrayAdapter arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, array_list);
+
+        obj.setAdapter(arrayAdapter);
     }
 
     public void showAccelerometerData(View view) {
