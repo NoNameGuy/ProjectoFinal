@@ -48,7 +48,6 @@ public class OpenGLRenderer implements GLSurfaceView.Renderer {
 
         gl.glTranslatef(-1.0f, 0.0f, -10.0f);
         gl.glRotatef(orientationW * (float) (180 / Math.PI), orientationX * (float) (180 / Math.PI), orientationY * (float) (180 / Math.PI), orientationZ * (float) (180 / Math.PI));
-
         mCube.draw(gl);
 
         gl.glTranslatef(1.0f, 0.0f, -10.0f);
