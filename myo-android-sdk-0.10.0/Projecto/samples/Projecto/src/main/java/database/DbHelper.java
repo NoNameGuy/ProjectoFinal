@@ -16,7 +16,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String TABLE_ACCELEROMETER_NAME = "accelerometer";
     public static final String TABLE_GYROSCOPE_NAME = "gyroscope";
     public static final String TABLE_ORIENTATION_NAME = "orientation";
-    public static final String TABLE_COMMON_DATA_NAME = "common";
+    public static final String TABLE_MOVEMENTS_DATA_NAME = "movements";
     public static final String TABLE_ALL_REGISTS = "allregists";
 
     private static final int DATABASE_VERSION = 1;
@@ -38,30 +38,28 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String MOVENAME = "movename";
     public static final String CURRENTARM = "currentarm";
     public static final String REFERENCE = "reference";
-    public static final String COMMENT = "comment";
+    public static final String OBSERVATIONS = "observations";
+    public static final String STARTTIME = "starttime";
+    public static final String ENDTIME = "endtime";
 
     private static final String DATABASE_CREATE_TABLE_ACCELEROMETER = "create table "
             + TABLE_ACCELEROMETER_NAME + "( " + ID
             + " integer primary key autoincrement, " + MOVEID + " int, " + TIMESTAMP + " int, " + Accel_X
-            + " int, " + Accel_Y + " int, "
-            + Accel_Z+" int, " + CURRENTARM + " varchar, " + USERNAME + " varchar, " + MOVENAME + " varchar );";
+            + " int, " + Accel_Y + " int, " + Accel_Z+" int );";
 
     private static final String DATABASE_CREATE_TABLE_GYROSCOPE = "create table "
             + TABLE_GYROSCOPE_NAME + "( " + ID
             + " integer primary key autoincrement, " + MOVEID + " int, " + TIMESTAMP + " int, " + Gyro_X
-            + " int, " + Gyro_Y + " int, "
-            + Gyro_Z+" int, " + CURRENTARM + " varchar, " + USERNAME + " varchar, " + MOVENAME + " varchar );";
+            + " int, " + Gyro_Y + " int, " + Gyro_Z+" int );";
 
     private static final String DATABASE_CREATE_TABLE_ORIENTATION = "create table "
             + TABLE_ORIENTATION_NAME + "( " + ID
             + " integer primary key autoincrement, " + MOVEID + " int, " + TIMESTAMP + " int, " + Orient_W + " int, " + Orient_X
-            + " int, " + Orient_Y + " int, "
-            + Orient_Z+" int, " + CURRENTARM + " varchar, " + USERNAME + " varchar, " + MOVENAME + " varchar );";
+            + " int, " + Orient_Y + " int, " + Orient_Z+" int );";
 
-    private static final String DATABASE_CREATE_TABLE_COMMON_DATA = "create table "
-            + TABLE_COMMON_DATA_NAME + "( " + ID
-            + " integer primary key autoincrement, " + MOVEID + " int, " + TIMESTAMP + " int, "
-            + CURRENTARM + " varchar, " + USERNAME + " varchar, " + MOVENAME + " varchar, " +REFERENCE+ " boolean, " + COMMENT + "varchar );";
+    private static final String DATABASE_CREATE_TABLE_MOVEMENTS = "create table "
+            + TABLE_MOVEMENTS_DATA_NAME + "( " + ID + " integer primary key autoincrement, " + CURRENTARM + " varchar, " + USERNAME + " varchar, "
+            + MOVENAME + " varchar, " +REFERENCE+ " int, " + OBSERVATIONS + "varchar, " +STARTTIME+ " int, " +ENDTIME+ " int );";
 
     private static final String DATABASE_CREATE_TABLE_ALL_REGISTS = "create table "
             + TABLE_ALL_REGISTS + "( "+ ID
@@ -79,7 +77,7 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String DATABASE_DELETE_ORIENTATION_REGISTS = "delete from "
             + TABLE_ORIENTATION_NAME;
     private static final String DATABASE_DELETE_COMMON_REGISTS = "delete from "
-            + TABLE_COMMON_DATA_NAME;
+            + TABLE_MOVEMENTS_DATA_NAME;
     private static final String DATABASE_DELETE_ALL_REGISTS = "delete from "
             + TABLE_ALL_REGISTS;
 
@@ -93,11 +91,10 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(DATABASE_CREATE_TABLE_ACCELEROMETER);
         db.execSQL(DATABASE_CREATE_TABLE_GYROSCOPE);
         db.execSQL(DATABASE_CREATE_TABLE_ORIENTATION);
-        db.execSQL(DATABASE_CREATE_TABLE_COMMON_DATA);
+        db.execSQL(DATABASE_CREATE_TABLE_MOVEMENTS);
         db.execSQL(DATABASE_CREATE_TABLE_ALL_REGISTS);
 
     }
-
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -107,7 +104,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ACCELEROMETER_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_GYROSCOPE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ORIENTATION_NAME);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_COMMON_DATA_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_MOVEMENTS_DATA_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ALL_REGISTS);
         onCreate(db);
     }
@@ -119,9 +116,11 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     public ArrayList<String> getAllGyroscopeRegists() {
+        ArrayList<String> tempArrayList = new ArrayList<String>();
         String[] columns = {ID, MOVEID, TIMESTAMP, Gyro_X, Gyro_Y, Gyro_Z, CURRENTARM, USERNAME, MOVENAME };
-
-        return getDataFromDatabase(false, TABLE_GYROSCOPE_NAME, columns, null, null);
+        tempArrayList.addAll(getDataFromDatabase(false, TABLE_GYROSCOPE_NAME, columns, null, null));
+        tempArrayList.addAll(getDataFromDatabase(false, TABLE_MOVEMENTS_DATA_NAME, columns, null, null));
+        return tempArrayList;
     }
 
     public ArrayList<String> getAllOrientationRegists() {
@@ -254,12 +253,12 @@ public class DbHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    public boolean insertAllRegister (String moveid, String timestamp, String accel_X, String accel_Y, String accel_Z, String gyro_X, String gyro_Y, String gyro_Z, String orient_W, String orient_X, String orient_Y, String orient_Z, String currentArm, String reference, String username, String movename )
+    public boolean insertAllRegister (String moveid, String atimestamp, String accel_X, String accel_Y, String accel_Z, String gtimestamp, String gyro_X, String gyro_Y, String gyro_Z, String otimestamp, String orient_W, String orient_X, String orient_Y, String orient_Z, String currentArm, String reference, String username, String movename )
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(MOVEID, moveid);
-        contentValues.put(TIMESTAMP, timestamp);
+        contentValues.put(TIMESTAMP, atimestamp);
         contentValues.put(Accel_X, accel_X);
         contentValues.put(Accel_Y, accel_Y);
         contentValues.put(Accel_Z, accel_Z);

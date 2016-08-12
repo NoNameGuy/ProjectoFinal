@@ -9,23 +9,55 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.thalmic.android.sample.helloworld.MoveOption">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/createMove"
-        android:id="@+id/button"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="93dp"
-        android:onClick="createMove" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="1"
+        android:layout_alignParentEnd="true">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/savedMoves"
-        android:id="@+id/button2"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:onClick="savedMoves" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="56dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="46dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/movelist"
+                android:id="@+id/textView24"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="80dp"
+                android:layout_gravity="center_horizontal" />
+
+        </LinearLayout>
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="107dp"
+            android:id="@+id/lstMoves"
+            android:layout_weight="1.05" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="61dp"
+            android:text="@string/createMove"
+            android:id="@+id/button"
+            android:onClick="createMove"
+            android:layout_below="@+id/textView24"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="168dp" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="82dp">
+
+        </LinearLayout>
+
+    </LinearLayout>
+
 </RelativeLayout>
-<!-- From: file:/C:/Users/MASTER/Desktop/Projecto/ProjectoFinal/myo-android-sdk-0.10.0/Projecto/samples/Projecto/src/main/res/layout/activity_move_option.xml -->
+<!-- From: file:/D:/ProjectoFinal/myo-android-sdk-0.10.0/Projecto/samples/Projecto/src/main/res/layout/activity_move_option.xml -->

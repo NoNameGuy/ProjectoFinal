@@ -1,4 +1,4 @@
-package com.thalmic.android.sample.helloworld;
+package com.thalmic.android.sample.helloworld.auxiliary;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;

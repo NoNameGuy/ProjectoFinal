@@ -1,4 +1,4 @@
-package com.thalmic.android.sample.helloworld;
+package com.thalmic.android.sample.helloworld.auxiliary;
 
 import android.app.Activity;
 import android.opengl.GLSurfaceView;

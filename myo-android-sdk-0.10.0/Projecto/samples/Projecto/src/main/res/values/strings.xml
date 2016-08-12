@@ -26,5 +26,9 @@
     <string name="teacher">Teacher</string>
     <string name="createMove">Create Move</string>
     <string name="savedMoves">Saved Moves</string>
+    <string name="movelist">Move List</string>
+    <string name="professioal">Professional</string>
+    <string name="movename">Move Name</string>
+    <string name="username">User Name</string>
 
 </resources>

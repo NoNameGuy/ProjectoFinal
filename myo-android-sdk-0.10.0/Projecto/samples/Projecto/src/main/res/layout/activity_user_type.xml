@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/areYou"
+        android:text="@string/welcome"
         android:id="@+id/textView18"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
@@ -24,18 +24,18 @@
         android:layout_height="wrap_content"
         android:text="@string/student"
         android:id="@+id/btnStudent"
-        android:layout_below="@+id/textView18"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="58dp"
-        android:onClick="selectStudent" />
+        android:onClick="selectStudent"
+        android:layout_below="@+id/btnTeacher"
+        android:layout_alignStart="@+id/textView18"
+        android:layout_marginTop="69dp" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/teacher"
+        android:text="@string/professioal"
         android:id="@+id/btnTeacher"
-        android:layout_below="@+id/btnStudent"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="77dp"
-        android:onClick="selectTeacher" />
+        android:onClick="selectTeacher"
+        android:layout_marginTop="63dp"
+        android:layout_below="@+id/textView18"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

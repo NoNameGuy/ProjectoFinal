@@ -65,7 +65,7 @@ activity#com.thalmic.android.sample.helloworld.ViewData
 ADDED from AndroidManifest.xml:29:9
 	android:name
 		ADDED from AndroidManifest.xml:29:19
-activity#com.thalmic.android.sample.helloworld.OpenGLES20
+activity#com.thalmic.android.sample.helloworld.auxiliary.OpenGLES20
 ADDED from AndroidManifest.xml:30:9
 	android:name
 		ADDED from AndroidManifest.xml:30:19

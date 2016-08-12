@@ -1,4 +1,4 @@
-package com.thalmic.android.sample.helloworld;
+package com.thalmic.android.sample.helloworld.auxiliary;
 
 /**
  * Created by UTIL on 30/06/2016.

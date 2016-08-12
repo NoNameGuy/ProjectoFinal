@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ViewData" />
-        <activity android:name=".OpenGLES20" />
+        <activity android:name=".auxiliary.OpenGLES20" />
         <activity android:name=".UserType" />
         <activity android:name=".MoveList" />
         <activity android:name=".MoveOption" />

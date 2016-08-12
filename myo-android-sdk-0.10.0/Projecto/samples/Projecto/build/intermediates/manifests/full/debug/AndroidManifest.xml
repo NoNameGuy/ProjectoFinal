@@ -37,7 +37,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.thalmic.android.sample.helloworld.ViewData" />
-        <activity android:name="com.thalmic.android.sample.helloworld.OpenGLES20" />
+        <activity android:name="com.thalmic.android.sample.helloworld.auxiliary.OpenGLES20" />
         <activity android:name="com.thalmic.android.sample.helloworld.UserType" />
         <activity android:name="com.thalmic.android.sample.helloworld.MoveList" />
         <activity android:name="com.thalmic.android.sample.helloworld.MoveOption" />
